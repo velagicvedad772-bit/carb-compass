@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carb Compass</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" data-i18n="appKicker">Diabetes meal planning</p>
+          <h1>Carb Compass</h1>
+        </div>
+        <div class="top-actions">
+          <div class="language-control" aria-label="Language switch" data-i18n-aria="languageSwitch">
+            <span data-i18n="language">Language</span>
+            <button id="languageToggle" type="button" class="language-switch" role="switch" aria-checked="false">
+              <span>EN</span>
+              <span>BS</span>
+              <i aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="target-panel" aria-label="Carbohydrate target" data-i18n-aria="carbTarget">
+            <label for="targetCarbs" data-i18n="mealTarget">Meal target</label>
+            <div>
+              <input id="targetCarbs" type="number" min="0" step="1" value="60" />
+              <span data-i18n="gramsCarbs">g carbs</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="summary-strip" aria-label="Meal nutrition totals" data-i18n-aria="mealTotals">
+        <article>
+          <span data-i18n="totalCarbs">Total carbs</span>
+          <strong id="totalCarbs">0g</strong>
+        </article>
+        <article>
+          <span data-i18n="netCarbs">Net carbs</span>
+          <strong id="netCarbs">0g</strong>
+        </article>
+        <article>
+          <span data-i18n="carbChoices">Carb choices</span>
+          <strong id="carbChoices">0</strong>
+        </article>
+        <article>
+          <span data-i18n="calories">Calories</span>
+          <strong id="totalCalories">0</strong>
+        </article>
+        <article class="progress-card">
+          <span id="targetStatus">0% of target</span>
+          <div class="progress-track">
+            <div id="targetProgress"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="search-pane" aria-label="Food search" data-i18n-aria="foodSearch">
+          <div class="control-stack">
+            <label for="foodSearch" data-i18n="findFood">Find food or ingredient</label>
+            <div class="search-row">
+              <input id="foodSearch" type="search" placeholder="rice, apple, yogurt, barcode..." data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
+              <button id="searchButton" type="button" data-i18n="search">Search</button>
+            </div>
+            <p class="hint" data-i18n="searchHint">Searches the built-in list first, then Open Food Facts for packaged foods when online.</p>
+          </div>
+
+          <div class="filter-row" aria-label="Food category filters" data-i18n-aria="foodFilters">
+            <button class="filter is-active" type="button" data-filter="all" data-i18n="all">All</button>
+            <button class="filter" type="button" data-filter="grain" data-i18n="grains">Grains</button>
+            <button class="filter" type="button" data-filter="fruit" data-i18n="fruit">Fruit</button>
+            <button class="filter" type="button" data-filter="protein" data-i18n="proteinCategory">Protein</button>
+            <button class="filter" type="button" data-filter="veg" data-i18n="veg">Veg</button>
+          </div>
+
+          <div id="results" class="results" aria-live="polite"></div>
+
+          <details class="custom-food">
+            <summary data-i18n="addCustomFood">Add custom food</summary>
+            <form id="customForm">
+              <label>
+                <span data-i18n="foodName">Food name</span>
+                <input id="customName" required placeholder="Homemade soup" data-i18n-placeholder="customNamePlaceholder" />
+              </label>
+              <label>
+                <span data-i18n="servingGrams">Serving grams</span>
+                <input id="customServing" type="number" min="1" step="1" value="100" required />
+              </label>
+              <label>
+                <span data-i18n="carbsPerServing">Carbs per serving</span>
+                <input id="customCarbs" type="number" min="0" step="0.1" value="0" required />
+              </label>
+              <label>
+                <span data-i18n="fiberPerServing">Fiber per serving</span>
+                <input id="customFiber" type="number" min="0" step="0.1" value="0" />
+              </label>
+              <label>
+                <span data-i18n="caloriesPerServing">Calories per serving</span>
+                <input id="customCalories" type="number" min="0" step="1" value="0" />
+              </label>
+              <button type="submit" data-i18n="addToMeal">Add to meal</button>
+            </form>
+          </details>
+        </aside>
+
+        <section class="meal-pane" aria-label="Current meal" data-i18n-aria="currentMeal">
+          <div class="meal-head">
+            <div>
+              <p class="eyebrow" data-i18n="currentMeal">Current meal</p>
+              <h2 data-i18n="ingredients">Ingredients</h2>
+            </div>
+            <div class="meal-actions">
+              <button id="saveMealButton" type="button" data-i18n="saveMeal">Save meal</button>
+              <button id="clearMeal" type="button" class="subtle-button" data-i18n="clear">Clear</button>
+            </div>
+          </div>
+
+          <div id="emptyMeal" class="empty-state">
+            <div class="plate-art" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <p data-i18n="emptyMeal">Build a meal to see carbohydrate totals, net carbs, calories, protein, fat, sugar, sodium, and fiber.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table id="mealTable">
+              <thead>
+                <tr>
+                  <th data-i18n="food">Food</th>
+                  <th data-i18n="amount">Amount</th>
+                  <th data-i18n="carbs">Carbs</th>
+                  <th data-i18n="nutrition">Nutrition</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="mealBody"></tbody>
+            </table>
+          </div>
+
+          <section class="tools-grid">
+            <div class="tool-panel">
+              <h3 data-i18n="insulinEstimate">Insulin estimate</h3>
+              <label for="ratio" data-i18n="carbRatio">Carb ratio, 1 unit per</label>
+              <div class="inline-input">
+                <input id="ratio" type="number" min="1" step="1" value="10" />
+                <span data-i18n="gramsCarbs">g carbs</span>
+              </div>
+              <output id="insulinEstimate">0 units</output>
+            </div>
+            <div class="tool-panel">
+              <h3 data-i18n="mealNotes">Meal notes</h3>
+              <textarea id="mealNotes" rows="5" placeholder="Example: pre-meal glucose, timing, recipe notes" data-i18n-placeholder="notesPlaceholder"></textarea>
+            </div>
+          </section>
+
+          <section class="tracker-grid" aria-label="Saved meal tracker" data-i18n-aria="savedTracker">
+            <div class="tracker-panel">
+              <div class="tracker-head">
+                <div>
+                  <p class="eyebrow" data-i18n="dailyTracker">Daily tracker</p>
+                  <h3 data-i18n="today">Today</h3>
+                </div>
+                <strong id="todayCarbs">0g</strong>
+              </div>
+              <div id="todayMeals" class="saved-meals"></div>
+            </div>
+
+            <div class="tracker-panel">
+              <div class="tracker-head">
+                <div>
+                  <p class="eyebrow" data-i18n="longView">Long view</p>
+                  <h3 id="periodTitle">This month</h3>
+                </div>
+                <div class="period-tabs" aria-label="Tracker period" data-i18n-aria="trackerPeriod">
+                  <button class="period-tab is-active" type="button" data-period="month" data-i18n="month">Month</button>
+                  <button class="period-tab" type="button" data-period="year" data-i18n="year">Year</button>
+                </div>
+              </div>
+              <div class="period-stats">
+                <article>
+                  <span data-i18n="savedMeals">Saved meals</span>
+                  <strong id="periodMeals">0</strong>
+                </article>
+                <article>
+                  <span data-i18n="totalCarbs">Total carbs</span>
+                  <strong id="periodCarbs">0g</strong>
+                </article>
+                <article>
+                  <span data-i18n="dailyAverage">Daily average</span>
+                  <strong id="periodAverage">0g</strong>
+                </article>
+              </div>
+              <div id="periodBreakdown" class="period-breakdown"></div>
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <footer>
+        <p data-i18n="footerNote">Nutrition data can vary by brand, preparation, and serving size. Use this for planning support, not medical dosing advice.</p>
+      </footer>
+    </main>
+
+    <template id="resultTemplate">
+      <article class="result-card">
+        <div>
+          <strong></strong>
+          <span></span>
+        </div>
+        <button type="button">Add</button>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
