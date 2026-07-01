@@ -863,6 +863,10 @@ footer {
     padding-right: 0;
   }
 
+  .results.is-empty-search {
+    display: none;
+  }
+
   .result-card {
     grid-template-columns: 1fr;
     gap: 10px;

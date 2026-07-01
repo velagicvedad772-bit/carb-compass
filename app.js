@@ -365,6 +365,7 @@ function normalizeFood(food) {
 
 function renderResults() {
   resultsEl.innerHTML = "";
+  resultsEl.classList.toggle("is-empty-search", !$("#foodSearch").value.trim());
   const filtered = state.results.filter((food) => state.filter === "all" || food.category === state.filter);
 
   if (!filtered.length) {
