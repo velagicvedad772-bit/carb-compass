@@ -62,7 +62,7 @@ footer {
   align-items: end;
   justify-content: space-between;
   gap: 20px;
-  padding: 18px 0 20px;
+  padding: 18px 0 18px;
 }
 
 .top-actions {
@@ -234,7 +234,7 @@ textarea:focus {
 
 .summary-strip {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 16px;
 }
@@ -355,6 +355,10 @@ textarea:focus {
   max-height: 520px;
   overflow: auto;
   padding-right: 4px;
+}
+
+.restaurants-mobile {
+  display: none;
 }
 
 .result-card {
@@ -543,7 +547,7 @@ td span {
 
 .tools-grid {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 18px;
 }
@@ -863,6 +867,87 @@ footer {
     padding-right: 0;
   }
 
+  .restaurants-mobile {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .restaurants-toggle {
+    min-height: 48px;
+    width: 100%;
+    padding: 0 14px;
+    background: var(--mint-dark);
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 900;
+  }
+
+  .restaurants-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .restaurants-panel[hidden] {
+    display: none;
+  }
+
+  .restaurant-card {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 10px;
+    background: #fbfdfb;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+
+  .restaurant-card strong {
+    min-width: 0;
+    font-size: 0.9rem;
+    line-height: 1.15;
+  }
+
+  .restaurant-logo {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 950;
+  }
+
+  .logo-mcd {
+    background: #c62828;
+    color: #ffd54f;
+  }
+
+  .logo-kfc {
+    background: #b71c1c;
+  }
+
+  .logo-bk {
+    background: #ef8f21;
+    color: #5a2a16;
+  }
+
+  .logo-sub {
+    background: #168a45;
+    color: #ffe15a;
+  }
+
+  .logo-pz {
+    background: #d32f2f;
+  }
+
+  .logo-local {
+    background: var(--blue);
+  }
+
   .results.is-empty-search {
     display: none;
   }
@@ -888,8 +973,11 @@ footer {
   }
 
   .meal-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: block;
+    width: 100%;
+  }
+
+  .meal-actions button {
     width: 100%;
   }
 
@@ -957,22 +1045,15 @@ footer {
   }
 
   td:nth-child(3) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
+    display: block;
     margin-bottom: 10px;
     padding: 10px;
     background: #f1f6f2;
     border-radius: 8px;
   }
 
-  td:nth-child(3) strong,
-  td:nth-child(3) span {
+  td:nth-child(3) strong {
     margin: 0;
-  }
-
-  td:nth-child(3) span {
-    text-align: right;
   }
 
   td:nth-child(5) {

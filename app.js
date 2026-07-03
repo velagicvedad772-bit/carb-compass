@@ -271,19 +271,15 @@ const state = {
   filter: "all",
   results: [...foods],
   meal: JSON.parse(localStorage.getItem("carbCompassMeal") || "[]"),
-  notes: localStorage.getItem("carbCompassNotes") || "",
   savedMeals: JSON.parse(localStorage.getItem("carbCompassSavedMeals") || "[]"),
   period: "month",
-  lang: localStorage.getItem("carbCompassLang") || "en"
+  lang: "bs"
 };
 
 const $ = (selector) => document.querySelector(selector);
 const resultsEl = $("#results");
 const mealBody = $("#mealBody");
 const emptyMeal = $("#emptyMeal");
-const notesEl = $("#mealNotes");
-
-notesEl.value = state.notes;
 
 function t(key) {
   return translations[state.lang]?.[key] || translations.en[key] || key;
@@ -304,13 +300,6 @@ function displayFoodName(food) {
   return food.name;
 }
 
-function savedMealTitle(meal) {
-  if (!meal.items?.length) return meal.title;
-  const mealName = meal.items.slice(0, 3).map((food) => displayFoodName(food).split(",")[0]).join(", ");
-  const extraCount = Math.max(0, meal.items.length - 3);
-  return extraCount ? `${mealName} + ${extraCount} ${t("more")}` : mealName;
-}
-
 function applyLanguage() {
   document.documentElement.lang = state.lang === "bs" ? "bs" : "en";
   document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -322,13 +311,8 @@ function applyLanguage() {
   document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
     element.setAttribute("aria-label", t(element.dataset.i18nAria));
   });
-  const languageToggle = $("#languageToggle");
-  languageToggle.classList.toggle("is-bs", state.lang === "bs");
-  languageToggle.setAttribute("aria-checked", state.lang === "bs" ? "true" : "false");
-  languageToggle.setAttribute("aria-label", t("languageSwitch"));
   renderResults();
   renderMeal();
-  renderTracker();
 }
 
 function round(value, digits = 1) {
@@ -398,7 +382,7 @@ function renderMeal() {
           <span>g</span>
         </div>
       </td>
-      <td><strong>${formatGrams(scaled(food, "carbs"))}</strong><span>${formatGrams(Math.max(0, scaled(food, "carbs") - scaled(food, "fiber")))} ${t("net")}</span></td>
+      <td><strong>${formatGrams(scaled(food, "carbs"))}</strong></td>
       <td>
         <div class="nutrition-pills">
           <span>${round(scaled(food, "calories"), 0)} ${t("cal")}</span>
@@ -431,17 +415,8 @@ function renderMeal() {
 function updateTotals() {
   const totals = calculateTotals(state.meal);
 
-  const target = Math.max(1, Number($("#targetCarbs").value) || 1);
-  const percent = Math.min(160, (totals.carbs / target) * 100);
-  const ratio = Math.max(1, Number($("#ratio").value) || 1);
-
   $("#totalCarbs").textContent = formatGrams(totals.carbs);
-  $("#netCarbs").textContent = formatGrams(Math.max(0, totals.carbs - totals.fiber));
-  $("#carbChoices").textContent = round(totals.carbs / 15);
   $("#totalCalories").textContent = round(totals.calories, 0);
-  $("#targetStatus").textContent = `${round((totals.carbs / target) * 100, 0)}% ${t("ofTarget")}`;
-  $("#targetProgress").style.width = `${percent}%`;
-  $("#insulinEstimate").textContent = `${round(totals.carbs / ratio, 2)} ${t("units")}`;
 }
 
 function calculateTotals(items) {
@@ -468,104 +443,6 @@ function formatMealTime(iso) {
 function formatShortDate(dateKey) {
   const locale = state.lang === "bs" ? "bs-BA" : "en-US";
   return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(new Date(`${dateKey}T12:00:00`));
-}
-
-function saveMealToTracker() {
-  if (!state.meal.length) return;
-
-  const now = new Date();
-  const totals = calculateTotals(state.meal);
-  const mealName = state.meal.slice(0, 3).map((food) => displayFoodName(food).split(",")[0]).join(", ");
-  const extraCount = Math.max(0, state.meal.length - 3);
-
-  state.savedMeals.unshift({
-    id: `${now.getTime()}-${Math.random().toString(16).slice(2)}`,
-    createdAt: now.toISOString(),
-    dateKey: getDateKey(now),
-    title: extraCount ? `${mealName} + ${extraCount} ${t("more")}` : mealName,
-    notes: notesEl.value.trim(),
-    items: state.meal.map((food) => ({ ...food })),
-    totals
-  });
-
-  persistSavedMeals();
-  renderTracker();
-}
-
-function renderTracker() {
-  const todayKey = getDateKey();
-  const todayMeals = state.savedMeals.filter((meal) => meal.dateKey === todayKey);
-  const todayCarbs = todayMeals.reduce((sum, meal) => sum + meal.totals.carbs, 0);
-
-  $("#todayCarbs").textContent = formatGrams(todayCarbs);
-  renderTodayMeals(todayMeals);
-  renderPeriodSummary();
-}
-
-function renderTodayMeals(todayMeals) {
-  const container = $("#todayMeals");
-  container.innerHTML = "";
-
-  if (!todayMeals.length) {
-    container.innerHTML = `<p class="hint">${t("savedFromToday")}</p>`;
-    return;
-  }
-
-  todayMeals.forEach((meal) => {
-    const card = document.createElement("article");
-    card.className = "saved-meal";
-    card.innerHTML = `
-      <div>
-        <strong>${savedMealTitle(meal)}</strong>
-        <span>${formatMealTime(meal.createdAt)} - ${formatGrams(meal.totals.carbs)} ${t("carbs").toLowerCase()}, ${round(meal.totals.calories, 0)} ${t("cal")}</span>
-      </div>
-      <button type="button" class="remove-button" aria-label="${t("deleteSavedMeal")}">x</button>
-    `;
-    card.querySelector("button").addEventListener("click", () => {
-      state.savedMeals = state.savedMeals.filter((item) => item.id !== meal.id);
-      persistSavedMeals();
-      renderTracker();
-    });
-    container.appendChild(card);
-  });
-}
-
-function renderPeriodSummary() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const prefix = state.period === "month" ? `${year}-${month}` : `${year}`;
-  const meals = state.savedMeals.filter((meal) => meal.dateKey.startsWith(prefix));
-  const totalCarbs = meals.reduce((sum, meal) => sum + meal.totals.carbs, 0);
-  const totalDays = new Set(meals.map((meal) => meal.dateKey)).size || 1;
-
-  $("#periodTitle").textContent = state.period === "month" ? t("thisMonth") : t("thisYear");
-  $("#periodMeals").textContent = meals.length;
-  $("#periodCarbs").textContent = formatGrams(totalCarbs);
-  $("#periodAverage").textContent = formatGrams(totalCarbs / totalDays);
-
-  const byDate = meals.reduce((acc, meal) => {
-    acc[meal.dateKey] ||= { meals: 0, carbs: 0 };
-    acc[meal.dateKey].meals += 1;
-    acc[meal.dateKey].carbs += meal.totals.carbs;
-    return acc;
-  }, {});
-
-  const breakdown = $("#periodBreakdown");
-  breakdown.innerHTML = "";
-
-  const rows = Object.entries(byDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 12);
-  if (!rows.length) {
-    breakdown.innerHTML = `<p class="hint">${t("trackerEmpty")}</p>`;
-    return;
-  }
-
-  rows.forEach(([dateKey, entry]) => {
-    const row = document.createElement("div");
-    row.className = "period-row";
-    row.innerHTML = `<strong>${formatShortDate(dateKey)}</strong><span>${entry.meals} ${entry.meals === 1 ? t("meal") : t("meals")} - ${formatGrams(entry.carbs)}</span>`;
-    breakdown.appendChild(row);
-  });
 }
 
 function addFood(food) {
@@ -684,26 +561,9 @@ $("#clearMeal").addEventListener("click", () => {
   renderMeal();
 });
 
-$("#saveMealButton").addEventListener("click", saveMealToTracker);
-$("#languageToggle").addEventListener("click", () => {
-  state.lang = state.lang === "en" ? "bs" : "en";
-  localStorage.setItem("carbCompassLang", state.lang);
-  applyLanguage();
-});
-
-document.querySelectorAll(".period-tab").forEach((button) => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".period-tab").forEach((item) => item.classList.remove("is-active"));
-    button.classList.add("is-active");
-    state.period = button.dataset.period;
-    renderTracker();
-  });
-});
-
-$("#targetCarbs").addEventListener("input", updateTotals);
-$("#ratio").addEventListener("input", updateTotals);
-notesEl.addEventListener("input", () => {
-  localStorage.setItem("carbCompassNotes", notesEl.value);
+$("#restaurantsToggle").addEventListener("click", () => {
+  const panel = $("#restaurantsPanel");
+  panel.hidden = !panel.hidden;
 });
 
 applyLanguage();
