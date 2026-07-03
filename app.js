@@ -373,7 +373,9 @@ function normalizeFood(food) {
 
 function renderResults() {
   resultsEl.innerHTML = "";
-  resultsEl.classList.toggle("is-empty-search", !$("#foodSearch").value.trim());
+  const hasSearch = Boolean($("#foodSearch").value.trim());
+  resultsEl.classList.toggle("is-empty-search", !hasSearch);
+  document.querySelector(".restaurants-mobile")?.classList.toggle("is-hidden-by-search", hasSearch);
   const filtered = state.results.filter((food) => state.filter === "all" || food.category === state.filter);
 
   if (!filtered.length) {

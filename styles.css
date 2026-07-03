@@ -873,6 +873,10 @@ footer {
     margin-top: 12px;
   }
 
+  .restaurants-mobile.is-hidden-by-search {
+    display: none;
+  }
+
   .restaurants-toggle {
     min-height: 48px;
     width: 100%;
