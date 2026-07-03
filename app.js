@@ -724,24 +724,29 @@ function renderMeal() {
           <span>g</span>
         </div>
       </td>
-      <td><strong>${formatGrams(scaled(food, "carbs"))}</strong></td>
+      <td class="carb-cell"><strong>${formatGrams(scaled(food, "carbs"))}</strong></td>
       <td>
         <div class="nutrition-pills">
-          <span>${round(scaled(food, "calories"), 0)} ${t("cal")}</span>
-          <span>${formatGrams(scaled(food, "protein"))} ${t("protein")}</span>
-          <span>${formatGrams(scaled(food, "fat"))} ${t("fat")}</span>
-          <span>${formatGrams(scaled(food, "sugar"))} ${t("sugar")}</span>
-          <span>${formatGrams(scaled(food, "fiber"))} ${t("fiber")}</span>
-          <span>${round(scaled(food, "sodium"), 0)}mg ${t("sodium")}</span>
+          ${nutritionMarkup(food)}
         </div>
       </td>
       <td><button type="button" class="remove-button" aria-label="${t("remove")} ${displayFoodName(food)}">x</button></td>
     `;
 
     row.querySelector("input").addEventListener("input", (event) => {
-      food.amount = Math.max(1, Number(event.target.value) || 1);
+      food.amount = Math.max(0, Number(event.target.value) || 0);
       persistCurrentMeal();
-      renderMeal();
+      updateMealRow(row, food);
+      updateTotals();
+    });
+    row.querySelector("input").addEventListener("blur", (event) => {
+      if (!food.amount) {
+        food.amount = 1;
+        event.target.value = 1;
+        persistCurrentMeal();
+        updateMealRow(row, food);
+        updateTotals();
+      }
     });
     row.querySelector(".remove-button").addEventListener("click", () => {
       state.meal = state.meal.filter((item) => item.id !== food.id);
@@ -752,6 +757,22 @@ function renderMeal() {
   });
 
   updateTotals();
+}
+
+function nutritionMarkup(food) {
+  return `
+    <span>${round(scaled(food, "calories"), 0)} ${t("cal")}</span>
+    <span>${formatGrams(scaled(food, "protein"))} ${t("protein")}</span>
+    <span>${formatGrams(scaled(food, "fat"))} ${t("fat")}</span>
+    <span>${formatGrams(scaled(food, "sugar"))} ${t("sugar")}</span>
+    <span>${formatGrams(scaled(food, "fiber"))} ${t("fiber")}</span>
+    <span>${round(scaled(food, "sodium"), 0)}mg ${t("sodium")}</span>
+  `;
+}
+
+function updateMealRow(row, food) {
+  row.querySelector(".carb-cell strong").textContent = formatGrams(scaled(food, "carbs"));
+  row.querySelector(".nutrition-pills").innerHTML = nutritionMarkup(food);
 }
 
 function updateTotals() {
