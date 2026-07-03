@@ -57,6 +57,30 @@ const pdfFoods = [
 
 foods.unshift(...pdfFoods);
 
+const pdfPreferredNames = new Set([
+  "pasta, cooked",
+  "white bread",
+  "white rice, cooked",
+  "potato",
+  "broccoli",
+  "apple",
+  "banana",
+  "orange",
+  "egg"
+]);
+
+function searchName(food) {
+  return food.name.toLowerCase();
+}
+
+function shouldHideDuplicate(food) {
+  if (food.source === "PDF per 100g") return false;
+  const name = searchName(food);
+  if (pdfPreferredNames.has(name)) return true;
+  if (name === "brown rice, cooked") return true;
+  return false;
+}
+
 const foodNameTranslations = {
   "Sugar": "Šećer",
   "Honey": "Med",
@@ -361,7 +385,7 @@ function renderResults() {
     const template = $("#resultTemplate").content.cloneNode(true);
     const card = template.querySelector(".result-card");
     card.querySelector("strong").textContent = displayFoodName(food);
-    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()}, ${formatGrams(food.fiber)} ${t("fiber")} ${t("perServing")} ${food.serving}g ${t("serving")} - ${sourceLabel(food.source)}`;
+    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}g`;
     card.querySelector("button").addEventListener("click", () => addFood(food));
     card.querySelector("button").textContent = t("addToMeal").replace(" to meal", "").replace(" u obrok", "");
     resultsEl.appendChild(template);
@@ -375,7 +399,7 @@ function renderMeal() {
   state.meal.forEach((food) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td><strong>${displayFoodName(food)}</strong><span>${sourceLabel(food.source)}</span></td>
+      <td><strong>${displayFoodName(food)}</strong></td>
       <td>
         <div class="amount-cell">
           <input type="number" min="1" step="1" value="${round(food.amount, 0)}" aria-label="${t("amount")} ${displayFoodName(food)}" />
@@ -453,8 +477,9 @@ function addFood(food) {
 
 function searchLocal(query) {
   const normalized = query.trim().toLowerCase();
-  if (!normalized) return [...foods];
-  return foods.filter((food) => {
+  const searchableFoods = foods.filter((food) => !shouldHideDuplicate(food));
+  if (!normalized) return [...searchableFoods];
+  return searchableFoods.filter((food) => {
     const englishName = food.name.toLowerCase();
     const bosnianName = (foodNameTranslations[food.name] || "").toLowerCase();
     return englishName.includes(normalized) || bosnianName.includes(normalized);
