@@ -55,7 +55,323 @@ const pdfFoods = [
   { name: "Peanut", category: "protein", serving: 100, carbs: 16, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "PDF per 100g" }
 ];
 
-foods.unshift(...pdfFoods);
+const extraFoods = [
+  { name: "Raženi hljeb", category: "grain", serving: 100, carbs: 48, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Integralni hljeb", category: "grain", serving: 100, carbs: 41, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tost hljeb", category: "grain", serving: 100, carbs: 50, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Somun", category: "grain", serving: 100, carbs: 50, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Lepinja", category: "grain", serving: 100, carbs: 49, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kifla", category: "grain", serving: 100, carbs: 52, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pecivo", category: "grain", serving: 100, carbs: 50, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kroasan", category: "grain", serving: 100, carbs: 46, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pita sa sirom", category: "grain", serving: 100, carbs: 31, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Burek", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pita sa krompirom", category: "grain", serving: 100, carbs: 32, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Palenta", category: "grain", serving: 100, carbs: 15, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kukuruzno brašno", category: "grain", serving: 100, carbs: 76, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Griz", category: "grain", serving: 100, carbs: 73, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Zobene pahuljice", category: "grain", serving: 100, carbs: 66, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Musli", category: "grain", serving: 100, carbs: 63, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Cornflakes", category: "grain", serving: 100, carbs: 84, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Keks", category: "grain", serving: 100, carbs: 70, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Čokoladni keks", category: "grain", serving: 100, carbs: 65, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kolač", category: "grain", serving: 100, carbs: 55, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Torta", category: "grain", serving: 100, carbs: 45, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Palačinke", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pizza", category: "grain", serving: 100, carbs: 33, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Hamburger pecivo", category: "grain", serving: 100, carbs: 49, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pomfrit", category: "veg", serving: 100, carbs: 35, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pire krompir", category: "veg", serving: 100, carbs: 16, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Grah kuhani", category: "protein", serving: 100, carbs: 21, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bijeli grah", category: "protein", serving: 100, carbs: 22, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Slanutak", category: "protein", serving: 100, carbs: 27, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Grašak", category: "veg", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kukuruz kuhani", category: "veg", serving: 100, carbs: 21, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Cvekla", category: "veg", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Luk", category: "veg", serving: 100, carbs: 9, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bijeli luk", category: "veg", serving: 100, carbs: 33, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Paprika", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kupus", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Karfiol", category: "veg", serving: 100, carbs: 5, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tikvica", category: "veg", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Patlidžan", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Gljive", category: "veg", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Zelena salata", category: "veg", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Avokado", category: "fruit", serving: 100, carbs: 9, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kruška", category: "fruit", serving: 100, carbs: 15, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Breskva", category: "fruit", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Nektarina", category: "fruit", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Šljiva", category: "fruit", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kajsija", category: "fruit", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Trešnje", category: "fruit", serving: 100, carbs: 16, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Višnje", category: "fruit", serving: 100, carbs: 12, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Maline", category: "fruit", serving: 100, carbs: 12, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kupine", category: "fruit", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Lubenica", category: "fruit", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Dinja", category: "fruit", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ananas", category: "fruit", serving: 100, carbs: 13, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kivi", category: "fruit", serving: 100, carbs: 15, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Limun", category: "fruit", serving: 100, carbs: 9, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Mandarina", category: "fruit", serving: 100, carbs: 13, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Suhe šljive", category: "fruit", serving: 100, carbs: 64, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Grožđice", category: "fruit", serving: 100, carbs: 79, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Hurme", category: "fruit", serving: 100, carbs: 75, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Smokve suhe", category: "fruit", serving: 100, carbs: 64, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Marmelada", category: "grain", serving: 100, carbs: 65, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Džem", category: "grain", serving: 100, carbs: 60, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Nutella", category: "grain", serving: 100, carbs: 57, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Čokolada mliječna", category: "grain", serving: 100, carbs: 59, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Čokolada tamna", category: "grain", serving: 100, carbs: 46, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sladoled", category: "grain", serving: 100, carbs: 24, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Puding", category: "grain", serving: 100, carbs: 22, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sok jabuka", category: "fruit", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sok narandža", category: "fruit", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Coca-Cola", category: "grain", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ledeni čaj", category: "grain", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Jogurt voćni", category: "protein", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kefir", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sirni namaz", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kajmak", category: "protein", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pavlaka", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kiselo mlijeko", category: "protein", serving: 100, carbs: 5, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Svježi sir", category: "protein", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Feta sir", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Mozzarella", category: "protein", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Gauda sir", category: "protein", serving: 100, carbs: 2, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pileći file", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Pureći file", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Junetina", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Teletina", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ćevapi", category: "protein", serving: 100, carbs: 2, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kobasica", category: "protein", serving: 100, carbs: 2, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Hrenovka", category: "protein", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tunjevina", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sardina", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Oslić", category: "protein", serving: 100, carbs: 0, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Škampi", category: "protein", serving: 100, carbs: 1, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kuhano jaje", category: "protein", serving: 100, carbs: 1, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Prženo jaje", category: "protein", serving: 100, carbs: 1, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Integralna riža suha", category: "grain", serving: 100, carbs: 76, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Basmati riža kuhana", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Jasmin riža kuhana", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kuskus kuhani", category: "grain", serving: 100, carbs: 23, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bulgur kuhani", category: "grain", serving: 100, carbs: 19, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Quinoa kuhana", category: "grain", serving: 100, carbs: 21, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Heljda kuhana", category: "grain", serving: 100, carbs: 20, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ječam kuhani", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Njoke", category: "grain", serving: 100, carbs: 33, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Rezanci kuhani", category: "grain", serving: 100, carbs: 25, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Makaroni kuhani", category: "grain", serving: 100, carbs: 31, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Lasagne", category: "grain", serving: 100, carbs: 18, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tortilja", category: "grain", serving: 100, carbs: 49, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Dvopek", category: "grain", serving: 100, carbs: 74, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Krekeri", category: "grain", serving: 100, carbs: 67, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Štapići slani", category: "grain", serving: 100, carbs: 75, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Čips", category: "grain", serving: 100, carbs: 53, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kokice", category: "grain", serving: 100, carbs: 78, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Musaka", category: "grain", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sarma", category: "grain", serving: 100, carbs: 7, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Đuveč", category: "grain", serving: 100, carbs: 12, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sataraš", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tarhana čorba", category: "grain", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Begova čorba", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Gulaš", category: "protein", serving: 100, carbs: 5, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Krompiruša", category: "grain", serving: 100, carbs: 32, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sirnica", category: "grain", serving: 100, carbs: 31, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Zeljanica", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Baklava", category: "grain", serving: 100, carbs: 55, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Hurmašica", category: "grain", serving: 100, carbs: 62, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tufahija", category: "fruit", serving: 100, carbs: 35, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Krempita", category: "grain", serving: 100, carbs: 34, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Oblatne", category: "grain", serving: 100, carbs: 66, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Eurokrem", category: "grain", serving: 100, carbs: 58, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Medeno srce", category: "grain", serving: 100, carbs: 70, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bananko", category: "grain", serving: 100, carbs: 76, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Smoki", category: "grain", serving: 100, carbs: 56, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Plazma keks", category: "grain", serving: 100, carbs: 72, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Petit keks", category: "grain", serving: 100, carbs: 74, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Majoneza", category: "protein", serving: 100, carbs: 1, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kečap", category: "veg", serving: 100, carbs: 25, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Senf", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ajvar", category: "veg", serving: 100, carbs: 9, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Humus", category: "protein", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Masline", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kiseli krastavci", category: "veg", serving: 100, carbs: 2, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Kiseli kupus", category: "veg", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Borovnice", category: "fruit", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Ribizle", category: "fruit", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Brusnice suhe", category: "fruit", serving: 100, carbs: 82, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Nar", category: "fruit", serving: 100, carbs: 19, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Grejp", category: "fruit", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Batat", category: "veg", serving: 100, carbs: 20, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Repa", category: "veg", serving: 100, carbs: 6, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Rotkvica", category: "veg", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Poriluk", category: "veg", serving: 100, carbs: 14, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Celer", category: "veg", serving: 100, carbs: 3, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bundeva", category: "veg", serving: 100, carbs: 7, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Tikva", category: "veg", serving: 100, carbs: 7, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sojino mlijeko", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Bademovo mlijeko", category: "protein", serving: 100, carbs: 1, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Rižino mlijeko", category: "grain", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Proteinski puding", category: "protein", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Energetsko piće", category: "grain", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Fanta", category: "grain", serving: 100, carbs: 11, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Sprite", category: "grain", serving: 100, carbs: 10, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Cedevita napitak", category: "grain", serving: 100, carbs: 9, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" }
+];
+
+const blockedPreparedFoodNames = new Set([
+  "burek", "pita sa sirom", "pita sa krompirom", "krompiruša", "sirnica", "zeljanica",
+  "pizza", "palačinke", "kolač", "torta", "baklava", "hurmašica", "tufahija",
+  "krempita", "oblatne", "medeno srce", "bananko", "musaka", "sarma", "đuveč",
+  "sataraš", "tarhana čorba", "begova čorba", "gulaš", "lasagne"
+]);
+
+const ingredientGroups = [
+  {
+    category: "veg",
+    forms: ["svježi", "sirovi", "oguljeni", "narezani", "na kockice", "rendani", "kuhani", "pečeni", "smrznuti"],
+    items: [
+      ["Krompir", 17], ["Mladi krompir", 16], ["Batat", 20], ["Mrkva", 10], ["Paradajz", 4], ["Cherry paradajz", 4],
+      ["Krastavac", 4], ["Paprika crvena", 6], ["Paprika zelena", 5], ["Paprika žuta", 6], ["Luk crveni", 9],
+      ["Luk bijeli", 9], ["Bijeli luk", 33], ["Poriluk", 14], ["Mladi luk", 7], ["Kupus", 6], ["Crveni kupus", 7],
+      ["Kiseli kupus", 4], ["Karfiol", 5], ["Brokula", 7], ["Tikvica", 3], ["Patlidžan", 6], ["Cvekla", 10],
+      ["Repa", 6], ["Rotkvica", 3], ["Celer korijen", 9], ["Celer stabljika", 3], ["Peršun korijen", 10],
+      ["Paštrnjak", 18], ["Bundeva", 7], ["Tikva", 7], ["Špinat", 4], ["Blitva", 4], ["Kelj", 9],
+      ["Prokulice", 9], ["Zelena salata", 3], ["Rukola", 4], ["Endivija", 3], ["Radič", 4], ["Šparoge", 4],
+      ["Mahune", 7], ["Grašak", 14], ["Kukuruz", 21], ["Gljive šampinjoni", 3], ["Bukovače", 6],
+      ["Vrganji", 7], ["Artičoka", 11], ["Komorač", 7], ["Đumbir korijen", 18], ["Hren", 11]
+    ]
+  },
+  {
+    category: "fruit",
+    forms: ["svježa", "sirova", "oguljena", "narezana", "na kockice", "pasirana", "smrznuta", "bez košpica"],
+    items: [
+      ["Jabuka", 14], ["Kruška", 15], ["Banana", 23], ["Narandža", 12], ["Mandarina", 13], ["Limun", 9],
+      ["Limeta", 11], ["Grejp", 11], ["Breskva", 10], ["Nektarina", 11], ["Kajsija", 11], ["Šljiva", 11],
+      ["Trešnje", 16], ["Višnje", 12], ["Jagode", 8], ["Maline", 12], ["Kupine", 10], ["Borovnice", 14],
+      ["Ribizle", 14], ["Brusnice", 12], ["Grožđe", 18], ["Lubenica", 8], ["Dinja", 8], ["Ananas", 13],
+      ["Mango", 15], ["Papaja", 11], ["Kivi", 15], ["Nar", 19], ["Smokva", 19], ["Hurme", 75],
+      ["Suhe šljive", 64], ["Grožđice", 79], ["Suhe smokve", 64], ["Suhe kajsije", 63], ["Kokos", 15],
+      ["Avokado", 9]
+    ]
+  },
+  {
+    category: "grain",
+    forms: ["sirovi", "suhi", "kuhani", "mljeveni", "integralni", "u zrnu", "u pahuljicama", "brašno", "krupica"],
+    items: [
+      ["Riža bijela", 80], ["Riža integralna", 76], ["Riža basmati", 78], ["Riža jasmin", 79], ["Riža arborio", 79],
+      ["Tjestenina pšenična", 75], ["Tjestenina integralna", 70], ["Makaroni", 75], ["Rezanci", 74],
+      ["Špageti", 75], ["Kuskus", 77], ["Bulgur", 76], ["Quinoa", 64], ["Heljda", 71], ["Ječam", 73],
+      ["Zob", 66], ["Zobene pahuljice", 66], ["Raž", 76], ["Proso", 73], ["Kukuruz", 74],
+      ["Pšenica", 71], ["Griz", 73], ["Palenta", 76], ["Kukuruzno brašno", 76], ["Pšenično brašno", 76],
+      ["Integralno brašno", 68], ["Raženo brašno", 76], ["Heljdino brašno", 71], ["Rižino brašno", 80],
+      ["Slanutkovo brašno", 58], ["Krompirov škrob", 83], ["Kukuruzni škrob", 91], ["Tapioka škrob", 88]
+    ]
+  },
+  {
+    category: "protein",
+    forms: ["svježi", "sirovi", "kuhani", "pečeni", "mljeveni", "file", "bez kože", "na kockice"],
+    items: [
+      ["Pileća prsa", 0], ["Pileći batak", 0], ["Pileće krilo", 0], ["Pureća prsa", 0], ["Pureći batak", 0],
+      ["Junetina", 0], ["Mljevena junetina", 0], ["Teletina", 0], ["Govedina", 0], ["Janjetina", 0],
+      ["Svinjetina", 0], ["Svinjski file", 0], ["Losos", 0], ["Tuna", 0], ["Tunjevina", 0], ["Sardina", 0],
+      ["Oslić", 0], ["Pastrmka", 0], ["Bakalar", 0], ["Skuša", 0], ["Škampi", 1], ["Kozice", 1],
+      ["Lignje", 3], ["Jaje", 1], ["Bjelance", 1], ["Žumance", 1], ["Tofu", 2], ["Tempeh", 9]
+    ]
+  },
+  {
+    category: "protein",
+    forms: ["obični", "svježi", "punomasni", "nemasni", "gusti", "tečni", "rendani", "kockice"],
+    items: [
+      ["Mlijeko", 5], ["Jogurt", 5], ["Grčki jogurt", 4], ["Kiselo mlijeko", 5], ["Kefir", 4],
+      ["Pavlaka", 4], ["Vrhnje za kuhanje", 4], ["Kajmak", 3], ["Svježi sir", 3], ["Mladi sir", 3],
+      ["Feta sir", 4], ["Mozzarella", 3], ["Gauda sir", 2], ["Edamer sir", 2], ["Parmezan", 4],
+      ["Sirni namaz", 4], ["Maslac", 1], ["Margarin", 1], ["Sojino mlijeko", 4], ["Bademovo mlijeko", 1],
+      ["Rižino mlijeko", 10], ["Kokosovo mlijeko", 3]
+    ]
+  },
+  {
+    category: "protein",
+    forms: ["sirovi", "suhi", "kuhani", "ocijeđeni", "konzervirani", "mljeveni", "pire", "namaz"],
+    items: [
+      ["Grah bijeli", 22], ["Grah crveni", 23], ["Grah šareni", 22], ["Crni grah", 24], ["Leća crvena", 20],
+      ["Leća zelena", 20], ["Slanutak", 27], ["Soja", 30], ["Bob", 20], ["Kikiriki", 16], ["Badem", 22],
+      ["Orah", 14], ["Lješnjak", 17], ["Indijski orah", 30], ["Pistacije", 28], ["Suncokret sjemenke", 20],
+      ["Bundevine sjemenke", 11], ["Lanene sjemenke", 29], ["Chia sjemenke", 42], ["Sezam", 23]
+    ]
+  },
+  {
+    category: "grain",
+    forms: ["suhi", "mljeveni", "u prahu", "sitni", "krupni", "bez dodatka", "za marinadu", "za kuhanje"],
+    items: [
+      ["So", 0], ["Biber crni", 64], ["Biber bijeli", 64], ["Biber zeleni", 64], ["Paprika slatka", 54],
+      ["Paprika ljuta", 50], ["Čili", 50], ["Kurkuma", 65], ["Kari", 58], ["Kim", 44], ["Kumin", 44],
+      ["Korijander", 55], ["Cimet", 81], ["Klinčić", 66], ["Muškatni oraščić", 49], ["Origano", 69],
+      ["Bosiljak", 48], ["Majčina dušica", 64], ["Ruzmarin", 64], ["Peršun", 6], ["Kopar", 7],
+      ["Lovor", 75], ["Menta", 15], ["Žalfija", 61], ["Estragon", 50], ["Bijeli luk u prahu", 73],
+      ["Luk u prahu", 79], ["Đumbir u prahu", 72], ["Vanilija", 13], ["Prašak za pecivo", 28],
+      ["Soda bikarbona", 0], ["Kvasac suhi", 41], ["Želatin", 0]
+    ]
+  },
+  {
+    category: "grain",
+    forms: ["obični", "bijeli", "smeđi", "u prahu", "sirup", "granule", "za kremu", "za tijesto"],
+    items: [
+      ["Šećer", 100], ["Med", 82], ["Javorov sirup", 67], ["Agava sirup", 76], ["Melasa", 75],
+      ["Dekstroza", 100], ["Fruktoza", 100], ["Kakao", 58], ["Čokolada za kuhanje", 46],
+      ["Kokos brašno", 24], ["Prezla", 72], ["Krušne mrvice", 72], ["Marmelada", 65], ["Džem", 60],
+      ["Nutella", 57], ["Puding prah", 88], ["Gustin", 91], ["Vanilin šećer", 98]
+    ]
+  },
+  {
+    category: "veg",
+    forms: ["hladno cijeđeno", "rafinisano", "za prženje", "za salatu", "tečno", "sprej", "kašika", "kašičica"],
+    items: [
+      ["Maslinovo ulje", 0], ["Suncokretovo ulje", 0], ["Kokosovo ulje", 0], ["Repičino ulje", 0],
+      ["Susamovo ulje", 0], ["Bučino ulje", 0], ["Ocat jabukov", 1], ["Ocat alkoholni", 0],
+      ["Balzamični ocat", 17], ["Soja sos", 5], ["Worcester sos", 19], ["Kečap", 25], ["Majoneza", 1],
+      ["Senf", 6], ["Ajvar", 9], ["Paradajz sos", 8], ["Paradajz pire", 19], ["Koncentrat paradajza", 19]
+    ]
+  }
+];
+
+function makeFood(name, category, carbs, source = "Sastojak na 100g") {
+  return { name, category, serving: 100, carbs, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source };
+}
+
+function generateIngredientFoods() {
+  const generated = [];
+  ingredientGroups.forEach((group) => {
+    group.items.forEach(([baseName, carbs]) => {
+      generated.push(makeFood(baseName, group.category, carbs));
+      group.forms.forEach((form) => {
+        generated.push(makeFood(`${baseName} ${form}`, group.category, carbs));
+      });
+    });
+  });
+  return generated;
+}
+
+function uniqueFoods(list) {
+  const seen = new Set();
+  return list.filter((food) => {
+    const key = food.name.trim().toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+const ingredientFoods = uniqueFoods([
+  ...pdfFoods,
+  ...extraFoods.filter((food) => !blockedPreparedFoodNames.has(food.name.toLowerCase())),
+  ...generateIngredientFoods()
+]);
+
+const allFoods = uniqueFoods([...ingredientFoods, ...foods]);
+foods.length = 0;
+foods.push(...allFoods);
 
 const pdfPreferredNames = new Set([
   "pasta, cooked",
