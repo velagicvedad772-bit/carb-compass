@@ -340,6 +340,115 @@ function makeFood(name, category, carbs, source = "Sastojak na 100g") {
   return { name, category, serving: 100, carbs, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source };
 }
 
+function completeNutrition(food) {
+  const hasNutrition = food.calories || food.protein || food.fat || food.fiber || food.sugar || food.sodium;
+  if (hasNutrition) return food;
+
+  const name = food.name.toLocaleLowerCase("bs");
+  const carbs = Number(food.carbs) || 0;
+  let fiber = 0;
+  let protein = 0;
+  let fat = 0;
+  let sugar = 0;
+  let sodium = 5;
+
+  const matches = (...terms) => terms.some((term) => name.includes(term));
+  const isOil = matches("ulje", "maslac", "margarin", "majoneza");
+  const isSugar = matches("šećer", "dekstroza", "fruktoza", "sirup", "med", "marmelada", "džem");
+  const isMeat = matches(
+    "pileć", "pureć", "junet", "telet", "goved", "svinjet", "janjet", "ćevap",
+    "kobasic", "hrenov", "losos", "tuna", "tunjevin", "sardin", "oslić",
+    "pastrmk", "bakalar", "skuš", "škamp", "kozic", "lignj"
+  );
+  const isEgg = matches("jaje", "bjelance", "žumance");
+  const isDairy = matches(
+    "mlijeko", "jogurt", "kefir", "pavlaka", "vrhnje", "kajmak",
+    "sir", "mozzarella", "gauda", "edamer", "parmezan"
+  );
+  const isLegumeOrNut = matches(
+    "grah", "leća", "slanut", "soja", "tofu", "tempeh", "bob", "kikirik",
+    "badem", "orah", "lješnjak", "indijski orah", "pistacij", "sjemenk",
+    "chia", "sezam", "humus"
+  );
+  const isDrink = matches(
+    "coca-cola", "fanta", "sprite", "sok ", "ledeni čaj",
+    "energetsko piće", "cedevita napitak"
+  );
+  const isSalt = matches("so ", "so,") || name === "so";
+
+  if (isSalt) {
+    sodium = 38758;
+  } else if (isOil) {
+    fat = matches("majoneza") ? 75 : matches("maslac", "margarin") ? 81 : 100;
+    protein = matches("majoneza") ? 1 : 0;
+    sodium = matches("majoneza") ? 635 : matches("maslac", "margarin") ? 11 : 2;
+  } else if (isMeat) {
+    protein = matches("kobasic", "hrenov", "ćevap") ? 15 : matches("škamp", "kozic", "lignj") ? 20 : 23;
+    fat = matches("losos", "sardin", "skuš") ? 12 : matches("kobasic", "hrenov", "ćevap") ? 22 : 6;
+    sugar = Math.min(carbs, 0.5);
+    sodium = matches("kobasic", "hrenov", "ćevap") ? 750 : 75;
+  } else if (isEgg) {
+    protein = matches("bjelance") ? 11 : matches("žumance") ? 16 : 13;
+    fat = matches("bjelance") ? 0.2 : matches("žumance") ? 27 : 11;
+    sugar = Math.min(carbs, 0.4);
+    sodium = 125;
+  } else if (isDairy) {
+    protein = matches("gauda", "edamer", "parmezan", "mozzarella", "feta") ? 22
+      : matches("svježi sir", "mladi sir") ? 12 : 3.5;
+    fat = matches("kajmak") ? 65 : matches("pavlaka", "vrhnje") ? 20
+      : matches("gauda", "edamer", "parmezan", "mozzarella", "feta") ? 22 : 3;
+    sugar = Math.min(carbs, matches("sir") ? 2 : carbs);
+    sodium = matches("feta", "gauda", "edamer", "parmezan") ? 700 : 50;
+  } else if (isLegumeOrNut) {
+    const isNut = matches("kikirik", "badem", "orah", "lješnjak", "indijski orah", "pistacij", "sjemenk", "chia", "sezam");
+    fiber = isNut ? Math.min(carbs * 0.45, 12) : Math.min(carbs * 0.35, 10);
+    protein = isNut ? 20 : matches("tofu") ? 8 : matches("tempeh") ? 19 : 9;
+    fat = isNut ? 48 : matches("tofu", "tempeh") ? 7 : 2;
+    sugar = Math.min(carbs * 0.08, 4);
+    sodium = 15;
+  } else if (isDrink) {
+    sugar = carbs;
+    sodium = 8;
+  } else if (isSugar) {
+    sugar = Math.min(carbs, matches("kakao", "čokolada") ? carbs * 0.5 : carbs);
+    fiber = matches("kakao", "kokos") ? Math.min(carbs * 0.25, 15) : 0;
+    protein = matches("kakao", "kokos") ? 6 : 0.3;
+    fat = matches("čokolada", "nutella") ? 30 : matches("kakao", "kokos") ? 14 : 0;
+  } else if (food.category === "fruit") {
+    fiber = Math.min(Math.max(carbs * 0.16, 0.4), matches("suhe", "hurme", "grožđice") ? 9 : 7);
+    protein = 0.8;
+    fat = matches("avokado", "kokos") ? 15 : 0.3;
+    sugar = Math.max(0, carbs - fiber - Math.min(carbs * 0.12, 2));
+    sodium = 2;
+  } else if (food.category === "veg") {
+    fiber = Math.min(Math.max(carbs * 0.28, 0.5), 8);
+    protein = Math.min(Math.max(carbs * 0.18, 1), 5);
+    fat = 0.3;
+    sugar = Math.min(Math.max(carbs * 0.35, 0.3), Math.max(0, carbs - fiber));
+    sodium = matches("kiseli", "soja sos", "senf", "kečap", "ajvar") ? 500 : 25;
+  } else {
+    fiber = matches("integral", "ražen", "zob", "heljd", "bulgur", "ječam", "kokice")
+      ? Math.min(carbs * 0.12, 11) : Math.min(carbs * 0.04, 4);
+    protein = matches("brašno", "tjesten", "makaron", "rezanc", "hljeb", "kruh", "pecivo")
+      ? 9 : Math.max(2, Math.min(carbs * 0.1, 8));
+    fat = matches("kroasan", "keks", "čips", "smoki", "torta", "kolač", "oblatne") ? 18 : 1.5;
+    sugar = matches("keks", "torta", "kolač", "baklava", "hurmašica", "čokolad", "puding")
+      ? Math.min(carbs * 0.45, carbs) : Math.min(carbs * 0.06, 5);
+    sodium = matches("hljeb", "kruh", "pecivo", "kreker", "štapić", "čips", "smoki") ? 450 : 15;
+  }
+
+  const calories = Math.round((Math.max(0, carbs - fiber) * 4) + (protein * 4) + (fat * 9) + (fiber * 2));
+  return {
+    ...food,
+    fiber: Number(fiber.toFixed(1)),
+    calories,
+    protein: Number(protein.toFixed(1)),
+    fat: Number(fat.toFixed(1)),
+    sugar: Number(Math.min(sugar, Math.max(0, carbs - fiber)).toFixed(1)),
+    sodium: Math.round(sodium)
+  };
+}
+
 function generateIngredientFoods() {
   const generated = [];
   ingredientGroups.forEach((group) => {
@@ -369,7 +478,7 @@ const ingredientFoods = uniqueFoods([
   ...generateIngredientFoods()
 ]);
 
-const allFoods = uniqueFoods([...ingredientFoods, ...foods]);
+const allFoods = uniqueFoods([...ingredientFoods, ...foods]).map(completeNutrition);
 foods.length = 0;
 foods.push(...allFoods);
 
@@ -610,7 +719,7 @@ const translations = {
 const state = {
   filter: "all",
   results: [...foods],
-  meal: JSON.parse(localStorage.getItem("carbCompassMeal") || "[]"),
+  meal: JSON.parse(localStorage.getItem("carbCompassMeal") || "[]").map(completeNutrition),
   savedMeals: JSON.parse(localStorage.getItem("carbCompassSavedMeals") || "[]"),
   period: "month",
   lang: "bs"
