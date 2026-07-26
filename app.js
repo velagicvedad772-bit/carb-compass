@@ -699,9 +699,10 @@ function renderResults() {
     return;
   }
 
-  filtered.slice(0, 36).forEach((food) => {
+  filtered.slice(0, 36).forEach((food, index) => {
     const template = $("#resultTemplate").content.cloneNode(true);
     const card = template.querySelector(".result-card");
+    card.style.setProperty("--item-index", index);
     card.querySelector("strong").textContent = displayFoodName(food);
     card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}g`;
     card.querySelector("button").addEventListener("click", () => addFood(food));
@@ -714,8 +715,9 @@ function renderMeal() {
   mealBody.innerHTML = "";
   emptyMeal.style.display = state.meal.length ? "none" : "grid";
 
-  state.meal.forEach((food) => {
+  state.meal.forEach((food, index) => {
     const row = document.createElement("tr");
+    row.style.setProperty("--item-index", index);
     row.innerHTML = `
       <td><strong>${displayFoodName(food)}</strong></td>
       <td>
@@ -749,9 +751,12 @@ function renderMeal() {
       }
     });
     row.querySelector(".remove-button").addEventListener("click", () => {
-      state.meal = state.meal.filter((item) => item.id !== food.id);
-      persistCurrentMeal();
-      renderMeal();
+      row.classList.add("row-removing");
+      setTimeout(() => {
+        state.meal = state.meal.filter((item) => item.id !== food.id);
+        persistCurrentMeal();
+        renderMeal();
+      }, 220);
     });
     mealBody.appendChild(row);
   });
@@ -778,8 +783,25 @@ function updateMealRow(row, food) {
 function updateTotals() {
   const totals = calculateTotals(state.meal);
 
-  $("#totalCarbs").textContent = formatGrams(totals.carbs);
-  $("#totalCalories").textContent = round(totals.calories, 0);
+  const carbsEl = $("#totalCarbs");
+  const calsEl = $("#totalCalories");
+
+  const newCarbsStr = formatGrams(totals.carbs);
+  const newCalsStr = round(totals.calories, 0).toString();
+
+  if (carbsEl.textContent !== newCarbsStr) {
+    carbsEl.textContent = newCarbsStr;
+    carbsEl.classList.remove("updated-pop");
+    void carbsEl.offsetWidth; // trigger reflow
+    carbsEl.classList.add("updated-pop");
+  }
+
+  if (calsEl.textContent !== newCalsStr) {
+    calsEl.textContent = newCalsStr;
+    calsEl.classList.remove("updated-pop");
+    void calsEl.offsetWidth; // trigger reflow
+    calsEl.classList.add("updated-pop");
+  }
 }
 
 function calculateTotals(items) {
@@ -920,9 +942,19 @@ $("#customForm").addEventListener("submit", (event) => {
 });
 
 $("#clearMeal").addEventListener("click", () => {
-  state.meal = [];
-  persistCurrentMeal();
-  renderMeal();
+  const rows = mealBody.querySelectorAll("tr");
+  if (rows.length) {
+    rows.forEach((r) => r.classList.add("row-removing"));
+    setTimeout(() => {
+      state.meal = [];
+      persistCurrentMeal();
+      renderMeal();
+    }, 220);
+  } else {
+    state.meal = [];
+    persistCurrentMeal();
+    renderMeal();
+  }
 });
 
 $("#restaurantsToggle").addEventListener("click", () => {

@@ -42,6 +42,17 @@ textarea {
 button {
   border: 0;
   cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(35, 98, 78, 0.18);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 6px rgba(35, 98, 78, 0.12);
 }
 
 .app-shell {
@@ -57,12 +68,34 @@ footer {
   margin: 0 auto;
 }
 
+/* Page Entrance Animations */
 .topbar {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 20px;
   padding: 18px 0 18px;
+  animation: slideDownFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.search-pane {
+  animation: fadeInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.meal-pane {
+  animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+footer {
+  animation: fadeIn 0.8s ease 0.4s both;
 }
 
 .top-actions {
@@ -80,6 +113,12 @@ footer {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.language-control:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 50px rgba(31, 57, 47, 0.16);
 }
 
 .language-control > span {
@@ -118,7 +157,7 @@ footer {
   width: calc(50% - 4px);
   background: var(--mint-dark);
   border-radius: 6px;
-  transition: transform 180ms ease;
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .language-switch span:first-child {
@@ -157,6 +196,7 @@ h1 {
   margin-bottom: 0;
   font-size: clamp(2rem, 4vw, 4.4rem);
   line-height: 0.95;
+  transition: color 0.3s ease;
 }
 
 h2 {
@@ -178,6 +218,12 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.target-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 50px rgba(31, 57, 47, 0.16);
 }
 
 .target-panel label,
@@ -208,8 +254,8 @@ textarea {
   outline: none;
   user-select: text;
   -webkit-user-select: text;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
-
 
 input {
   min-height: 42px;
@@ -224,19 +270,13 @@ textarea {
 input:focus,
 textarea:focus {
   border-color: var(--mint);
-  box-shadow: 0 0 0 3px rgba(60, 141, 115, 0.16);
+  box-shadow: 0 0 0 4px rgba(60, 141, 115, 0.18);
+  transform: translateY(-1px);
 }
 
 .target-panel input {
   max-width: 88px;
   font-weight: 800;
-}
-
-.summary-strip {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
 }
 
 .summary-strip article,
@@ -247,11 +287,20 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .summary-strip article {
   min-height: 96px;
   padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-strip article:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 50px rgba(31, 57, 47, 0.16);
+  border-color: rgba(60, 141, 115, 0.3);
 }
 
 .summary-strip span {
@@ -266,6 +315,13 @@ textarea:focus {
   margin-top: 10px;
   font-size: 2rem;
   line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+}
+
+/* Number update animation pulse */
+.summary-strip strong.updated-pop {
+  animation: counterPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: var(--mint-dark);
 }
 
 .progress-track {
@@ -281,7 +337,7 @@ textarea:focus {
   max-width: 100%;
   height: 100%;
   background: linear-gradient(90deg, var(--mint), var(--gold), var(--coral));
-  transition: width 180ms ease;
+  transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .workspace {
@@ -355,12 +411,14 @@ textarea:focus {
   max-height: 520px;
   overflow: auto;
   padding-right: 4px;
+  scroll-behavior: smooth;
 }
 
 .restaurants-mobile {
   display: none;
 }
 
+/* Staggered Entrance and Hover for Result Cards */
 .result-card {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -370,6 +428,16 @@ textarea:focus {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+  animation: resultCardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--item-index, 0) * 30ms);
+}
+
+.result-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--mint);
+  box-shadow: 0 8px 20px rgba(60, 141, 115, 0.14);
+  background: #ffffff;
 }
 
 .result-card strong,
@@ -384,15 +452,37 @@ textarea:focus {
   line-height: 1.35;
 }
 
+.result-card button {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.result-card button:hover {
+  transform: scale(1.05);
+  background: var(--mint);
+  box-shadow: 0 4px 12px rgba(60, 141, 115, 0.3);
+}
+
 .custom-food {
   margin-top: 18px;
   border-top: 1px solid var(--line);
   padding-top: 14px;
+  transition: border-color 0.2s ease;
 }
 
 .custom-food summary {
   cursor: pointer;
   font-weight: 800;
+  transition: color 0.2s ease, transform 0.2s ease;
+  outline: none;
+}
+
+.custom-food summary:hover {
+  color: var(--mint-dark);
+}
+
+.custom-food[open] summary {
+  color: var(--mint-dark);
+  margin-bottom: 6px;
 }
 
 .custom-food form {
@@ -400,6 +490,7 @@ textarea:focus {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 14px;
+  animation: formExpand 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .custom-food label {
@@ -430,6 +521,12 @@ textarea:focus {
 .subtle-button {
   background: #f0f3f0;
   color: var(--ink);
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.subtle-button:hover {
+  background: #e2ebd5;
+  color: var(--mint-dark);
 }
 
 .empty-state {
@@ -442,8 +539,11 @@ textarea:focus {
   border-radius: 8px;
   color: var(--muted);
   text-align: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: fadeIn 0.4s ease-out;
 }
 
+/* Plate Art Floating and Breathing Animations */
 .plate-art {
   position: relative;
   width: 118px;
@@ -452,7 +552,8 @@ textarea:focus {
   border: 10px solid #dfe9e2;
   border-radius: 50%;
   background: conic-gradient(from 20deg, #7fb49e 0 33%, #f0c46a 33% 58%, #d98275 58% 82%, #6f9bc2 82% 100%);
-  box-shadow: inset 0 0 0 18px #fff;
+  box-shadow: inset 0 0 0 18px #fff, 0 8px 24px rgba(31, 57, 47, 0.08);
+  animation: floatPlate 4s ease-in-out infinite alternate;
 }
 
 .plate-art span {
@@ -461,21 +562,26 @@ textarea:focus {
   height: 20px;
   border-radius: 50%;
   background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  animation: pulseDot 3s ease-in-out infinite alternate;
 }
 
 .plate-art span:nth-child(1) {
   left: 29px;
   top: 25px;
+  animation-delay: 0s;
 }
 
 .plate-art span:nth-child(2) {
   right: 28px;
   top: 44px;
+  animation-delay: 0.6s;
 }
 
 .plate-art span:nth-child(3) {
   left: 48px;
   bottom: 26px;
+  animation-delay: 1.2s;
 }
 
 .table-wrap {
@@ -502,6 +608,20 @@ th {
   text-transform: uppercase;
 }
 
+/* Meal Table Row Animations */
+tbody tr {
+  animation: rowSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.25s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(244, 248, 245, 0.6);
+}
+
+tbody tr.row-removing {
+  animation: rowSlideOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
 td strong,
 td span {
   display: block;
@@ -520,6 +640,11 @@ td span {
 
 .amount-cell input {
   max-width: 92px;
+  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.amount-cell input:focus {
+  transform: scale(1.03);
 }
 
 .nutrition-pills {
@@ -534,6 +659,13 @@ td span {
   border-radius: 999px;
   color: var(--ink);
   font-size: 0.78rem;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.nutrition-pills span:hover {
+  transform: scale(1.08);
+  background: #e0eae2;
+  color: var(--mint-dark);
 }
 
 .remove-button {
@@ -543,6 +675,14 @@ td span {
   border-radius: 8px;
   color: #92372d;
   font-weight: 900;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease;
+}
+
+.remove-button:hover {
+  transform: scale(1.12) rotate(8deg);
+  background: #f3d4d0;
+  color: #7a1d13;
+  box-shadow: 0 4px 10px rgba(146, 55, 45, 0.2);
 }
 
 .tools-grid {
@@ -614,6 +754,12 @@ td span {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.saved-meal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(31, 57, 47, 0.08);
 }
 
 .saved-meal strong,
@@ -651,6 +797,11 @@ td span {
   background: #f6faf7;
   border: 1px solid var(--line);
   border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.period-stats article:hover {
+  transform: translateY(-2px);
 }
 
 .period-stats span {
@@ -676,6 +827,11 @@ td span {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.period-row:hover {
+  transform: translateX(3px);
 }
 
 .period-row span {
@@ -687,6 +843,138 @@ footer {
   padding: 18px 2px 0;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+/* Keyframes Definitions */
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes resultCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rowSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rowSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    max-height: 80px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-24px) scale(0.94);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+}
+
+@keyframes counterPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+    color: var(--mint);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes floatPlate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+@keyframes formExpand {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 1020px) {
@@ -891,6 +1179,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+    animation: formExpand 0.3s ease-out;
   }
 
   .restaurants-panel[hidden] {
@@ -907,6 +1196,12 @@ footer {
     background: #fbfdfb;
     border: 1px solid var(--line);
     border-radius: 8px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .restaurant-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
   }
 
   .restaurant-card strong {
@@ -923,6 +1218,11 @@ footer {
     border-radius: 8px;
     color: #fff;
     font-weight: 950;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .restaurant-card:hover .restaurant-logo {
+    transform: scale(1.08);
   }
 
   .logo-mcd {
@@ -993,7 +1293,7 @@ footer {
   .plate-art {
     width: 92px;
     border-width: 8px;
-    box-shadow: inset 0 0 0 14px #fff;
+    box-shadow: inset 0 0 0 14px #fff, 0 6px 18px rgba(31, 57, 47, 0.08);
   }
 
   .table-wrap {
