@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Glyco</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" data-i18n="appKicker">Diabetes meal planning</p>
+          <h1>Glyco</h1>
+        </div>
+      </header>
+
+      <section class="summary-strip" aria-label="Meal nutrition totals" data-i18n-aria="mealTotals">
+        <article>
+          <span data-i18n="totalCarbs">Total carbs</span>
+          <strong id="totalCarbs">0g</strong>
+        </article>
+        <article>
+          <span data-i18n="calories">Calories</span>
+          <strong id="totalCalories">0</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="search-pane" aria-label="Food search" data-i18n-aria="foodSearch">
+          <div class="control-stack">
+            <label for="foodSearch" data-i18n="findFood">Find food or ingredient</label>
+            <div class="search-row">
+              <input id="foodSearch" type="search" placeholder="rice, apple, yogurt, barcode..." data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
+              <button id="searchButton" type="button" data-i18n="search">Search</button>
+            </div>
+            <p class="hint" data-i18n="searchHint">Searches the built-in list first, then Open Food Facts for packaged foods when online.</p>
+          </div>
+
+          <div id="results" class="results" aria-live="polite"></div>
+
+          <section class="restaurants-mobile" aria-label="Restorani">
+            <button id="restaurantsToggle" type="button" class="restaurants-toggle">Restorani</button>
+            <div id="restaurantsPanel" class="restaurants-panel" hidden>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-mcd">M</span>
+                <strong>McDonald's</strong>
+              </article>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-kfc">K</span>
+                <strong>KFC</strong>
+              </article>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-bk">BK</span>
+                <strong>Burger King</strong>
+              </article>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-sub">S</span>
+                <strong>Subway</strong>
+              </article>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-pz">P</span>
+                <strong>Pizza Hut</strong>
+              </article>
+              <article class="restaurant-card">
+                <span class="restaurant-logo logo-local">Ć</span>
+                <strong>Ćevabdžinica</strong>
+              </article>
+            </div>
+          </section>
+
+          <details class="custom-food">
+            <summary data-i18n="addCustomFood">Add custom food</summary>
+            <form id="customForm">
+              <label>
+                <span data-i18n="foodName">Food name</span>
+                <input id="customName" required placeholder="Homemade soup" data-i18n-placeholder="customNamePlaceholder" />
+              </label>
+              <label>
+                <span data-i18n="servingGrams">Serving grams</span>
+                <input id="customServing" type="number" min="1" step="1" value="100" required />
+              </label>
+              <label>
+                <span data-i18n="carbsPerServing">Carbs per serving</span>
+                <input id="customCarbs" type="number" min="0" step="0.1" value="0" required />
+              </label>
+              <label>
+                <span data-i18n="fiberPerServing">Fiber per serving</span>
+                <input id="customFiber" type="number" min="0" step="0.1" value="0" />
+              </label>
+              <label>
+                <span data-i18n="caloriesPerServing">Calories per serving</span>
+                <input id="customCalories" type="number" min="0" step="1" value="0" />
+              </label>
+              <button type="submit" data-i18n="addToMeal">Add to meal</button>
+            </form>
+          </details>
+        </aside>
+
+        <section class="meal-pane" aria-label="Current meal" data-i18n-aria="currentMeal">
+          <div class="meal-head">
+            <div>
+              <p class="eyebrow" data-i18n="currentMeal">Current meal</p>
+              <h2 data-i18n="ingredients">Ingredients</h2>
+            </div>
+            <div class="meal-actions">
+              <button id="clearMeal" type="button" class="subtle-button" data-i18n="clear">Clear</button>
+            </div>
+          </div>
+
+          <div id="emptyMeal" class="empty-state">
+            <div class="plate-art" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="mealTable">
+              <thead>
+                <tr>
+                  <th data-i18n="food">Food</th>
+                  <th data-i18n="amount">Amount</th>
+                  <th data-i18n="carbs">Carbs</th>
+                  <th data-i18n="nutrition">Nutrition</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="mealBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <p data-i18n="footerNote">Nutrition data can vary by brand, preparation, and serving size. Use this for planning support, not medical dosing advice.</p>
+      </footer>
+    </main>
+
+    <template id="resultTemplate">
+      <article class="result-card">
+        <div>
+          <strong></strong>
+          <span></span>
+        </div>
+        <button type="button">Add</button>
+      </article>
+    </template>
+
+    <script src="app.js?v=2"></script>
+  </body>
+</html>
