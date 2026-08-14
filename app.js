@@ -725,6 +725,10 @@ const state = {
   lang: "bs"
 };
 
+const SUPABASE_URL = "https://rnqiueaqnicdtznmoxrz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_tT3lG030COnQrClCm8sNSw__hGOoZEb";
+let databaseFoods = [];
+
 const $ = (selector) => document.querySelector(selector);
 const resultsEl = $("#results");
 const mealBody = $("#mealBody");
@@ -943,17 +947,68 @@ function addFood(food) {
   state.meal.push(normalizeFood(food));
   persistCurrentMeal();
   renderMeal();
+
+  $("#foodSearch").value = "";
+  state.results = [];
+  resultsEl.innerHTML = "";
+  resultsEl.classList.add("is-empty-search");
+  document.querySelector(".restaurants-mobile")?.classList.remove("is-hidden-by-search");
+
+  requestAnimationFrame(() => {
+    document.querySelector(".meal-pane")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 function searchLocal(query) {
   const normalized = query.trim().toLowerCase();
-  const searchableFoods = foods.filter((food) => !shouldHideDuplicate(food));
+  const sourceFoods = databaseFoods.length ? databaseFoods : foods;
+  const searchableFoods = sourceFoods.filter((food) => !shouldHideDuplicate(food));
   if (!normalized) return [...searchableFoods];
   return searchableFoods.filter((food) => {
     const englishName = food.name.toLowerCase();
     const bosnianName = (foodNameTranslations[food.name] || "").toLowerCase();
     return englishName.includes(normalized) || bosnianName.includes(normalized);
   });
+}
+
+async function loadDatabaseFoods() {
+  try {
+    const rows = [];
+    const pageSize = 1000;
+
+    for (let offset = 0; ; offset += pageSize) {
+      const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/foods?select=id,name,brand,barcode,category,serving,carbs,fiber,calories,protein,fat,sugar,sodium,source&is_active=eq.true&order=id.asc`,
+        {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Range: `${offset}-${offset + pageSize - 1}`
+          }
+        }
+      );
+
+      if (!response.ok) throw new Error("Database request failed");
+
+      const page = await response.json();
+      rows.push(...page);
+      if (page.length < pageSize) break;
+    }
+
+    databaseFoods = rows.map((food) => completeNutrition({
+      ...food,
+      serving: Number(food.serving) || 100,
+      carbs: Number(food.carbs) || 0,
+      fiber: Number(food.fiber) || 0,
+      calories: Number(food.calories) || 0,
+      protein: Number(food.protein) || 0,
+      fat: Number(food.fat) || 0,
+      sugar: Number(food.sugar) || 0,
+      sodium: Number(food.sodium) || 0,
+      source: food.source || "Gluko"
+    })).sort((a, b) => a.name.localeCompare(b.name, "bs"));
+  } catch (error) {
+    console.warn("Gluko database is unavailable; using the bundled food list.", error);
+  }
 }
 
 function isBarcode(query) {
@@ -1031,25 +1086,6 @@ $("#foodSearch").addEventListener("keydown", (event) => {
   if (event.key === "Enter") runSearch();
 });
 
-$("#customForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  addFood({
-    name: $("#customName").value.trim(),
-    category: "all",
-    serving: Number($("#customServing").value) || 100,
-    carbs: Number($("#customCarbs").value) || 0,
-    fiber: Number($("#customFiber").value) || 0,
-    calories: Number($("#customCalories").value) || 0,
-    protein: 0,
-    fat: 0,
-    sugar: 0,
-    sodium: 0,
-    source: "Custom"
-  });
-  event.target.reset();
-  $("#customServing").value = 100;
-});
-
 $("#clearMeal").addEventListener("click", () => {
   const rows = mealBody.querySelectorAll("tr");
   if (rows.length) {
@@ -1072,3 +1108,4 @@ $("#restaurantsToggle").addEventListener("click", () => {
 });
 
 applyLanguage();
+loadDatabaseFoods();
