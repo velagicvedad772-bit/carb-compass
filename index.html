@@ -69,32 +69,6 @@
             </div>
           </section>
 
-          <details class="custom-food">
-            <summary data-i18n="addCustomFood">Add custom food</summary>
-            <form id="customForm">
-              <label>
-                <span data-i18n="foodName">Food name</span>
-                <input id="customName" required placeholder="Homemade soup" data-i18n-placeholder="customNamePlaceholder" />
-              </label>
-              <label>
-                <span data-i18n="servingGrams">Serving grams</span>
-                <input id="customServing" type="number" min="1" step="1" value="100" required />
-              </label>
-              <label>
-                <span data-i18n="carbsPerServing">Carbs per serving</span>
-                <input id="customCarbs" type="number" min="0" step="0.1" value="0" required />
-              </label>
-              <label>
-                <span data-i18n="fiberPerServing">Fiber per serving</span>
-                <input id="customFiber" type="number" min="0" step="0.1" value="0" />
-              </label>
-              <label>
-                <span data-i18n="caloriesPerServing">Calories per serving</span>
-                <input id="customCalories" type="number" min="0" step="1" value="0" />
-              </label>
-              <button type="submit" data-i18n="addToMeal">Add to meal</button>
-            </form>
-          </details>
         </aside>
 
         <section class="meal-pane" aria-label="Current meal" data-i18n-aria="currentMeal">
@@ -146,6 +120,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=3"></script>
   </body>
 </html>
