@@ -732,6 +732,14 @@ const translations = {
   }
 };
 
+const SESSION_RESET_AFTER_MS = 5 * 60 * 1000;
+const LAST_EXIT_KEY = "glukoLastExitAt";
+const previousExitAt = Number(localStorage.getItem(LAST_EXIT_KEY) || 0);
+
+if (previousExitAt && Date.now() - previousExitAt >= SESSION_RESET_AFTER_MS) {
+  localStorage.removeItem("carbCompassMeal");
+}
+
 const state = {
   filter: "all",
   results: [...foods],
@@ -745,6 +753,32 @@ const SUPABASE_URL = "https://rnqiueaqnicdtznmoxrz.supabase.co";
 const SUPABASE_KEY = "sb_publishable_tT3lG030COnQrClCm8sNSw__hGOoZEb";
 let databaseFoods = [];
 let pendingFood = null;
+
+function markAppExit() {
+  localStorage.setItem(LAST_EXIT_KEY, String(Date.now()));
+}
+
+function resetCurrentSession() {
+  state.meal = [];
+  localStorage.removeItem("carbCompassMeal");
+  localStorage.removeItem(LAST_EXIT_KEY);
+
+  const searchInput = document.querySelector("#foodSearch");
+  if (searchInput) searchInput.value = "";
+  state.results = [];
+
+  if (pendingFood) closeFoodModal();
+  renderResults();
+  renderMeal();
+  document.querySelector(".restaurants-mobile")?.classList.remove("is-hidden-by-search");
+}
+
+function resetAfterBackgroundTimeout() {
+  const exitedAt = Number(localStorage.getItem(LAST_EXIT_KEY) || 0);
+  if (exitedAt && Date.now() - exitedAt >= SESSION_RESET_AFTER_MS) {
+    resetCurrentSession();
+  }
+}
 
 const $ = (selector) => document.querySelector(selector);
 const resultsEl = $("#results");
@@ -1172,6 +1206,17 @@ $("#restaurantsToggle").addEventListener("click", () => {
   const panel = $("#restaurantsPanel");
   panel.hidden = !panel.hidden;
 });
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    markAppExit();
+  } else {
+    resetAfterBackgroundTimeout();
+  }
+});
+
+window.addEventListener("pagehide", markAppExit);
+window.addEventListener("pageshow", resetAfterBackgroundTimeout);
 
 applyLanguage();
 loadDatabaseFoods();
