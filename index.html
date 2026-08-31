@@ -105,6 +105,29 @@
         </section>
       </section>
 
+      <div id="foodAmountModal" class="food-modal" hidden>
+        <div class="food-modal__backdrop" data-modal-close></div>
+        <section class="food-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="foodModalTitle">
+          <h2 id="foodModalTitle"></h2>
+          <p id="foodModalServing" class="hint"></p>
+
+          <label class="food-modal__amount" for="foodAmountInput">
+            <span data-i18n="amount">Amount</span>
+            <span class="food-modal__input-wrap">
+              <input id="foodAmountInput" type="number" min="1" step="1" inputmode="decimal" value="100" />
+              <strong>g</strong>
+            </span>
+          </label>
+
+          <div id="foodModalNutrition" class="food-modal__nutrition"></div>
+
+          <div class="food-modal__actions">
+            <button id="discardFoodButton" type="button" class="food-modal__discard" data-i18n="delete">Delete</button>
+            <button id="saveFoodButton" type="button" class="food-modal__save" data-i18n="save">Save</button>
+          </div>
+        </section>
+      </div>
+
       <footer>
         <p data-i18n="footerNote">Nutrition data can vary by brand, preparation, and serving size. Use this for planning support, not medical dosing advice.</p>
       </footer>
@@ -120,6 +143,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
   </body>
 </html>

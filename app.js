@@ -631,7 +631,9 @@ const translations = {
     meal: "meal",
     more: "more",
     deleteSavedMeal: "Delete saved meal",
-    remove: "Remove"
+    remove: "Remove",
+    save: "Save",
+    delete: "Delete"
   },
   bs: {
     appKicker: "Planiranje obroka za dijabetes",
@@ -712,7 +714,9 @@ const translations = {
     meal: "obrok",
     more: "još",
     deleteSavedMeal: "Obriši sačuvani obrok",
-    remove: "Ukloni"
+    remove: "Ukloni",
+    save: "Sačuvaj",
+    delete: "Obriši"
   }
 };
 
@@ -728,6 +732,7 @@ const state = {
 const SUPABASE_URL = "https://rnqiueaqnicdtznmoxrz.supabase.co";
 const SUPABASE_KEY = "sb_publishable_tT3lG030COnQrClCm8sNSw__hGOoZEb";
 let databaseFoods = [];
+let pendingFood = null;
 
 const $ = (selector) => document.querySelector(selector);
 const resultsEl = $("#results");
@@ -796,7 +801,7 @@ function normalizeFood(food) {
   return {
     ...food,
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    amount: food.serving || 100
+    amount: food.amount || food.serving || 100
   };
 }
 
@@ -818,7 +823,7 @@ function renderResults() {
     card.style.setProperty("--item-index", index);
     card.querySelector("strong").textContent = displayFoodName(food);
     card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}g`;
-    card.querySelector("button").addEventListener("click", () => addFood(food));
+    card.querySelector("button").addEventListener("click", () => openFoodModal(food));
     card.querySelector("button").textContent = t("addToMeal").replace(" to meal", "").replace(" u obrok", "");
     resultsEl.appendChild(template);
   });
@@ -959,6 +964,41 @@ function addFood(food) {
   });
 }
 
+function openFoodModal(food) {
+  pendingFood = normalizeFood(food);
+  const modal = $("#foodAmountModal");
+  const amountInput = $("#foodAmountInput");
+
+  amountInput.value = round(pendingFood.amount, 0);
+  $("#foodModalTitle").textContent = displayFoodName(pendingFood);
+  $("#foodModalServing").textContent = `${formatGrams(pendingFood.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${pendingFood.serving}g`;
+  updateFoodModalNutrition();
+
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  requestAnimationFrame(() => amountInput.focus());
+}
+
+function closeFoodModal() {
+  $("#foodAmountModal").hidden = true;
+  document.body.classList.remove("modal-open");
+  pendingFood = null;
+}
+
+function updateFoodModalNutrition() {
+  if (!pendingFood) return;
+  const amount = Math.max(0, Number($("#foodAmountInput").value) || 0);
+  pendingFood.amount = amount;
+  $("#foodModalNutrition").innerHTML = `
+    <article><span>${t("carbs")}</span><strong>${formatGrams(scaled(pendingFood, "carbs"))}</strong></article>
+    <article><span>${t("calories")}</span><strong>${round(scaled(pendingFood, "calories"), 0)}</strong></article>
+    <article><span>${t("protein")}</span><strong>${formatGrams(scaled(pendingFood, "protein"))}</strong></article>
+    <article><span>${t("fat")}</span><strong>${formatGrams(scaled(pendingFood, "fat"))}</strong></article>
+    <article><span>${t("sugar")}</span><strong>${formatGrams(scaled(pendingFood, "sugar"))}</strong></article>
+    <article><span>${t("fiber")}</span><strong>${formatGrams(scaled(pendingFood, "fiber"))}</strong></article>
+  `;
+}
+
 function searchLocal(query) {
   const normalized = query.trim().toLowerCase();
   const sourceFoods = databaseFoods.length ? databaseFoods : foods;
@@ -1084,6 +1124,20 @@ $("#foodSearch").addEventListener("input", () => {
 });
 $("#foodSearch").addEventListener("keydown", (event) => {
   if (event.key === "Enter") runSearch();
+});
+
+$("#foodAmountInput").addEventListener("input", updateFoodModalNutrition);
+$("#saveFoodButton").addEventListener("click", () => {
+  if (!pendingFood) return;
+  pendingFood.amount = Math.max(1, Number($("#foodAmountInput").value) || 1);
+  addFood({ ...pendingFood, serving: pendingFood.serving });
+  closeFoodModal();
+});
+$("#discardFoodButton").addEventListener("click", closeFoodModal);
+document.querySelectorAll("[data-modal-close]").forEach((element) => element.addEventListener("click", closeFoodModal));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !$("#foodAmountModal").hidden) closeFoodModal();
+  if (event.key === "Enter" && !$("#foodAmountModal").hidden) $("#saveFoodButton").click();
 });
 
 $("#clearMeal").addEventListener("click", () => {
