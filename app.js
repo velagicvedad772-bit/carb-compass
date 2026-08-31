@@ -176,6 +176,19 @@ const extraFoods = [
   { name: "Tarhana čorba", category: "grain", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Begova čorba", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Gulaš", category: "protein", serving: 100, carbs: 5, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
+  { name: "Punjene paprike", category: "grain", serving: 100, carbs: 8, fiber: 1.5, calories: 135, protein: 7, fat: 8, sugar: 2.5, sodium: 310, source: "Built-in" },
+  { name: "Dolma", category: "grain", serving: 100, carbs: 9, fiber: 1.8, calories: 140, protein: 6, fat: 8, sugar: 2, sodium: 290, source: "Built-in" },
+  { name: "Grah sa mesom", category: "protein", serving: 100, carbs: 15, fiber: 5, calories: 145, protein: 8, fat: 5, sugar: 1.5, sodium: 300, source: "Built-in" },
+  { name: "Bosanski lonac", category: "protein", serving: 100, carbs: 8, fiber: 2, calories: 110, protein: 7, fat: 6, sugar: 2.5, sodium: 250, source: "Built-in" },
+  { name: "Klepe", category: "grain", serving: 100, carbs: 24, fiber: 1.2, calories: 210, protein: 9, fat: 8, sugar: 1, sodium: 260, source: "Built-in" },
+  { name: "Pileći paprikaš", category: "protein", serving: 100, carbs: 6, fiber: 1, calories: 125, protein: 12, fat: 6, sugar: 2, sodium: 270, source: "Built-in" },
+  { name: "Krompir paprikaš", category: "veg", serving: 100, carbs: 14, fiber: 2, calories: 95, protein: 2.5, fat: 3, sugar: 2, sodium: 240, source: "Built-in" },
+  { name: "Pileći pilav", category: "grain", serving: 100, carbs: 18, fiber: 0.8, calories: 155, protein: 8, fat: 5.5, sugar: 0.8, sodium: 220, source: "Built-in" },
+  { name: "Varivo od graška", category: "veg", serving: 100, carbs: 12, fiber: 4, calories: 100, protein: 5, fat: 3, sugar: 4, sodium: 230, source: "Built-in" },
+  { name: "Varivo od mahuna", category: "veg", serving: 100, carbs: 8, fiber: 3, calories: 80, protein: 3, fat: 3.5, sugar: 3, sodium: 220, source: "Built-in" },
+  { name: "Kupus sa mesom", category: "protein", serving: 100, carbs: 5, fiber: 2, calories: 105, protein: 7, fat: 6, sugar: 2.5, sodium: 300, source: "Built-in" },
+  { name: "Krompir čorba", category: "veg", serving: 100, carbs: 10, fiber: 1.5, calories: 75, protein: 2, fat: 2.5, sugar: 1.5, sodium: 230, source: "Built-in" },
+  { name: "Teleća čorba", category: "protein", serving: 100, carbs: 4, fiber: 0.6, calories: 75, protein: 7, fat: 3.5, sugar: 1, sodium: 260, source: "Built-in" },
   { name: "Krompiruša", category: "grain", serving: 100, carbs: 32, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Sirnica", category: "grain", serving: 100, carbs: 31, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Zeljanica", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
@@ -223,8 +236,7 @@ const extraFoods = [
 const blockedPreparedFoodNames = new Set([
   "burek", "pita sa sirom", "pita sa krompirom", "krompiruša", "sirnica", "zeljanica",
   "pizza", "palačinke", "kolač", "torta", "baklava", "hurmašica", "tufahija",
-  "krempita", "oblatne", "medeno srce", "bananko", "musaka", "sarma", "đuveč",
-  "sataraš", "tarhana čorba", "begova čorba", "gulaš", "lasagne"
+  "krempita", "oblatne", "medeno srce", "bananko"
 ]);
 
 const ingredientGroups = [
