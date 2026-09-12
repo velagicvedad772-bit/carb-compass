@@ -176,19 +176,6 @@ const extraFoods = [
   { name: "Tarhana čorba", category: "grain", serving: 100, carbs: 8, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Begova čorba", category: "protein", serving: 100, carbs: 4, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Gulaš", category: "protein", serving: 100, carbs: 5, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
-  { name: "Punjene paprike", category: "grain", serving: 100, carbs: 8, fiber: 1.5, calories: 135, protein: 7, fat: 8, sugar: 2.5, sodium: 310, source: "Built-in" },
-  { name: "Dolma", category: "grain", serving: 100, carbs: 9, fiber: 1.8, calories: 140, protein: 6, fat: 8, sugar: 2, sodium: 290, source: "Built-in" },
-  { name: "Grah sa mesom", category: "protein", serving: 100, carbs: 15, fiber: 5, calories: 145, protein: 8, fat: 5, sugar: 1.5, sodium: 300, source: "Built-in" },
-  { name: "Bosanski lonac", category: "protein", serving: 100, carbs: 8, fiber: 2, calories: 110, protein: 7, fat: 6, sugar: 2.5, sodium: 250, source: "Built-in" },
-  { name: "Klepe", category: "grain", serving: 100, carbs: 24, fiber: 1.2, calories: 210, protein: 9, fat: 8, sugar: 1, sodium: 260, source: "Built-in" },
-  { name: "Pileći paprikaš", category: "protein", serving: 100, carbs: 6, fiber: 1, calories: 125, protein: 12, fat: 6, sugar: 2, sodium: 270, source: "Built-in" },
-  { name: "Krompir paprikaš", category: "veg", serving: 100, carbs: 14, fiber: 2, calories: 95, protein: 2.5, fat: 3, sugar: 2, sodium: 240, source: "Built-in" },
-  { name: "Pileći pilav", category: "grain", serving: 100, carbs: 18, fiber: 0.8, calories: 155, protein: 8, fat: 5.5, sugar: 0.8, sodium: 220, source: "Built-in" },
-  { name: "Varivo od graška", category: "veg", serving: 100, carbs: 12, fiber: 4, calories: 100, protein: 5, fat: 3, sugar: 4, sodium: 230, source: "Built-in" },
-  { name: "Varivo od mahuna", category: "veg", serving: 100, carbs: 8, fiber: 3, calories: 80, protein: 3, fat: 3.5, sugar: 3, sodium: 220, source: "Built-in" },
-  { name: "Kupus sa mesom", category: "protein", serving: 100, carbs: 5, fiber: 2, calories: 105, protein: 7, fat: 6, sugar: 2.5, sodium: 300, source: "Built-in" },
-  { name: "Krompir čorba", category: "veg", serving: 100, carbs: 10, fiber: 1.5, calories: 75, protein: 2, fat: 2.5, sugar: 1.5, sodium: 230, source: "Built-in" },
-  { name: "Teleća čorba", category: "protein", serving: 100, carbs: 4, fiber: 0.6, calories: 75, protein: 7, fat: 3.5, sugar: 1, sodium: 260, source: "Built-in" },
   { name: "Krompiruša", category: "grain", serving: 100, carbs: 32, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Sirnica", category: "grain", serving: 100, carbs: 31, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
   { name: "Zeljanica", category: "grain", serving: 100, carbs: 28, fiber: 0, calories: 0, protein: 0, fat: 0, sugar: 0, sodium: 0, source: "Built-in" },
@@ -236,7 +223,8 @@ const extraFoods = [
 const blockedPreparedFoodNames = new Set([
   "burek", "pita sa sirom", "pita sa krompirom", "krompiruša", "sirnica", "zeljanica",
   "pizza", "palačinke", "kolač", "torta", "baklava", "hurmašica", "tufahija",
-  "krempita", "oblatne", "medeno srce", "bananko"
+  "krempita", "oblatne", "medeno srce", "bananko", "musaka", "sarma", "đuveč",
+  "sataraš", "tarhana čorba", "begova čorba", "gulaš", "lasagne"
 ]);
 
 const ingredientGroups = [
@@ -643,9 +631,7 @@ const translations = {
     meal: "meal",
     more: "more",
     deleteSavedMeal: "Delete saved meal",
-    remove: "Remove",
-    save: "Save",
-    delete: "Delete"
+    remove: "Remove"
   },
   bs: {
     appKicker: "Planiranje obroka za dijabetes",
@@ -726,19 +712,9 @@ const translations = {
     meal: "obrok",
     more: "još",
     deleteSavedMeal: "Obriši sačuvani obrok",
-    remove: "Ukloni",
-    save: "Sačuvaj",
-    delete: "Obriši"
+    remove: "Ukloni"
   }
 };
-
-const SESSION_RESET_AFTER_MS = 5 * 60 * 1000;
-const LAST_EXIT_KEY = "glukoLastExitAt";
-const previousExitAt = Number(localStorage.getItem(LAST_EXIT_KEY) || 0);
-
-if (previousExitAt && Date.now() - previousExitAt >= SESSION_RESET_AFTER_MS) {
-  localStorage.removeItem("carbCompassMeal");
-}
 
 const state = {
   filter: "all",
@@ -748,37 +724,6 @@ const state = {
   period: "month",
   lang: "bs"
 };
-
-const SUPABASE_URL = "https://rnqiueaqnicdtznmoxrz.supabase.co";
-const SUPABASE_KEY = "sb_publishable_tT3lG030COnQrClCm8sNSw__hGOoZEb";
-let databaseFoods = [];
-let pendingFood = null;
-
-function markAppExit() {
-  localStorage.setItem(LAST_EXIT_KEY, String(Date.now()));
-}
-
-function resetCurrentSession() {
-  state.meal = [];
-  localStorage.removeItem("carbCompassMeal");
-  localStorage.removeItem(LAST_EXIT_KEY);
-
-  const searchInput = document.querySelector("#foodSearch");
-  if (searchInput) searchInput.value = "";
-  state.results = [];
-
-  if (pendingFood) closeFoodModal();
-  renderResults();
-  renderMeal();
-  document.querySelector(".restaurants-mobile")?.classList.remove("is-hidden-by-search");
-}
-
-function resetAfterBackgroundTimeout() {
-  const exitedAt = Number(localStorage.getItem(LAST_EXIT_KEY) || 0);
-  if (exitedAt && Date.now() - exitedAt >= SESSION_RESET_AFTER_MS) {
-    resetCurrentSession();
-  }
-}
 
 const $ = (selector) => document.querySelector(selector);
 const resultsEl = $("#results");
@@ -835,6 +780,10 @@ function formatGrams(value) {
   return `${round(value)}g`;
 }
 
+function foodUnit(food) {
+  return String(food?.category || "").toLowerCase() === "drink" ? "ml" : "g";
+}
+
 function persistCurrentMeal() {
   localStorage.setItem("carbCompassMeal", JSON.stringify(state.meal));
 }
@@ -847,7 +796,7 @@ function normalizeFood(food) {
   return {
     ...food,
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    amount: food.amount || food.serving || 100
+    amount: food.serving || 100
   };
 }
 
@@ -868,8 +817,8 @@ function renderResults() {
     const card = template.querySelector(".result-card");
     card.style.setProperty("--item-index", index);
     card.querySelector("strong").textContent = displayFoodName(food);
-    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}g`;
-    card.querySelector("button").addEventListener("click", () => openFoodModal(food));
+    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}${foodUnit(food)}`;
+    card.querySelector("button").addEventListener("click", () => addFood(food));
     card.querySelector("button").textContent = t("addToMeal").replace(" to meal", "").replace(" u obrok", "");
     resultsEl.appendChild(template);
   });
@@ -887,7 +836,7 @@ function renderMeal() {
       <td>
         <div class="amount-cell">
           <input type="number" min="1" step="1" value="${round(food.amount, 0)}" aria-label="${t("amount")} ${displayFoodName(food)}" />
-          <span>g</span>
+          <span>${foodUnit(food)}</span>
         </div>
       </td>
       <td class="carb-cell"><strong>${formatGrams(scaled(food, "carbs"))}</strong></td>
@@ -998,103 +947,17 @@ function addFood(food) {
   state.meal.push(normalizeFood(food));
   persistCurrentMeal();
   renderMeal();
-
-  $("#foodSearch").value = "";
-  state.results = [];
-  resultsEl.innerHTML = "";
-  resultsEl.classList.add("is-empty-search");
-  document.querySelector(".restaurants-mobile")?.classList.remove("is-hidden-by-search");
-
-  requestAnimationFrame(() => {
-    document.querySelector(".meal-pane")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
-
-function openFoodModal(food) {
-  pendingFood = normalizeFood(food);
-  const modal = $("#foodAmountModal");
-  const amountInput = $("#foodAmountInput");
-
-  amountInput.value = round(pendingFood.amount, 0);
-  $("#foodModalTitle").textContent = displayFoodName(pendingFood);
-  $("#foodModalServing").textContent = `${formatGrams(pendingFood.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${pendingFood.serving}g`;
-  updateFoodModalNutrition();
-
-  modal.hidden = false;
-  document.body.classList.add("modal-open");
-  requestAnimationFrame(() => amountInput.focus());
-}
-
-function closeFoodModal() {
-  $("#foodAmountModal").hidden = true;
-  document.body.classList.remove("modal-open");
-  pendingFood = null;
-}
-
-function updateFoodModalNutrition() {
-  if (!pendingFood) return;
-  const amount = Math.max(0, Number($("#foodAmountInput").value) || 0);
-  pendingFood.amount = amount;
-  $("#foodModalNutrition").innerHTML = `
-    <article><span>${t("carbs")}</span><strong>${formatGrams(scaled(pendingFood, "carbs"))}</strong></article>
-    <article><span>${t("calories")}</span><strong>${round(scaled(pendingFood, "calories"), 0)}</strong></article>
-    <article><span>${t("protein")}</span><strong>${formatGrams(scaled(pendingFood, "protein"))}</strong></article>
-    <article><span>${t("fat")}</span><strong>${formatGrams(scaled(pendingFood, "fat"))}</strong></article>
-    <article><span>${t("sugar")}</span><strong>${formatGrams(scaled(pendingFood, "sugar"))}</strong></article>
-    <article><span>${t("fiber")}</span><strong>${formatGrams(scaled(pendingFood, "fiber"))}</strong></article>
-  `;
 }
 
 function searchLocal(query) {
   const normalized = query.trim().toLowerCase();
-  const sourceFoods = databaseFoods.length ? databaseFoods : foods;
-  const searchableFoods = sourceFoods.filter((food) => !shouldHideDuplicate(food));
+  const searchableFoods = foods.filter((food) => !shouldHideDuplicate(food));
   if (!normalized) return [...searchableFoods];
   return searchableFoods.filter((food) => {
     const englishName = food.name.toLowerCase();
     const bosnianName = (foodNameTranslations[food.name] || "").toLowerCase();
     return englishName.includes(normalized) || bosnianName.includes(normalized);
   });
-}
-
-async function loadDatabaseFoods() {
-  try {
-    const rows = [];
-    const pageSize = 1000;
-
-    for (let offset = 0; ; offset += pageSize) {
-      const response = await fetch(
-        `${SUPABASE_URL}/rest/v1/foods?select=id,name,brand,barcode,category,serving,carbs,fiber,calories,protein,fat,sugar,sodium,source&is_active=eq.true&order=id.asc`,
-        {
-          headers: {
-            apikey: SUPABASE_KEY,
-            Range: `${offset}-${offset + pageSize - 1}`
-          }
-        }
-      );
-
-      if (!response.ok) throw new Error("Database request failed");
-
-      const page = await response.json();
-      rows.push(...page);
-      if (page.length < pageSize) break;
-    }
-
-    databaseFoods = rows.map((food) => completeNutrition({
-      ...food,
-      serving: Number(food.serving) || 100,
-      carbs: Number(food.carbs) || 0,
-      fiber: Number(food.fiber) || 0,
-      calories: Number(food.calories) || 0,
-      protein: Number(food.protein) || 0,
-      fat: Number(food.fat) || 0,
-      sugar: Number(food.sugar) || 0,
-      sodium: Number(food.sodium) || 0,
-      source: food.source || "Gluko"
-    })).sort((a, b) => a.name.localeCompare(b.name, "bs"));
-  } catch (error) {
-    console.warn("Gluko database is unavailable; using the bundled food list.", error);
-  }
 }
 
 function isBarcode(query) {
@@ -1172,18 +1035,23 @@ $("#foodSearch").addEventListener("keydown", (event) => {
   if (event.key === "Enter") runSearch();
 });
 
-$("#foodAmountInput").addEventListener("input", updateFoodModalNutrition);
-$("#saveFoodButton").addEventListener("click", () => {
-  if (!pendingFood) return;
-  pendingFood.amount = Math.max(1, Number($("#foodAmountInput").value) || 1);
-  addFood({ ...pendingFood, serving: pendingFood.serving });
-  closeFoodModal();
-});
-$("#discardFoodButton").addEventListener("click", closeFoodModal);
-document.querySelectorAll("[data-modal-close]").forEach((element) => element.addEventListener("click", closeFoodModal));
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && !$("#foodAmountModal").hidden) closeFoodModal();
-  if (event.key === "Enter" && !$("#foodAmountModal").hidden) $("#saveFoodButton").click();
+$("#customForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  addFood({
+    name: $("#customName").value.trim(),
+    category: "all",
+    serving: Number($("#customServing").value) || 100,
+    carbs: Number($("#customCarbs").value) || 0,
+    fiber: Number($("#customFiber").value) || 0,
+    calories: Number($("#customCalories").value) || 0,
+    protein: 0,
+    fat: 0,
+    sugar: 0,
+    sodium: 0,
+    source: "Custom"
+  });
+  event.target.reset();
+  $("#customServing").value = 100;
 });
 
 $("#clearMeal").addEventListener("click", () => {
@@ -1207,16 +1075,4 @@ $("#restaurantsToggle").addEventListener("click", () => {
   panel.hidden = !panel.hidden;
 });
 
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden") {
-    markAppExit();
-  } else {
-    resetAfterBackgroundTimeout();
-  }
-});
-
-window.addEventListener("pagehide", markAppExit);
-window.addEventListener("pageshow", resetAfterBackgroundTimeout);
-
 applyLanguage();
-loadDatabaseFoods();
