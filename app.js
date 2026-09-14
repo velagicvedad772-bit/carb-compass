@@ -1057,14 +1057,22 @@ function updateFoodModalNutrition() {
   `;
 }
 
+function normalizeSearchText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 function searchLocal(query) {
-  const normalized = query.trim().toLowerCase();
+  const normalized = normalizeSearchText(query.trim());
   const sourceFoods = databaseFoods.length ? databaseFoods : foods;
   const searchableFoods = sourceFoods.filter((food) => !shouldHideDuplicate(food));
   if (!normalized) return [...searchableFoods];
   return searchableFoods.filter((food) => {
-    const englishName = food.name.toLowerCase();
-    const bosnianName = (foodNameTranslations[food.name] || "").toLowerCase();
+    const englishName = normalizeSearchText(food.name);
+    const bosnianName = normalizeSearchText(foodNameTranslations[food.name] || "");
     return englishName.includes(normalized) || bosnianName.includes(normalized);
   });
 }
