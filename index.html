@@ -5,42 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gluko</title>
     <link rel="stylesheet" href="styles.css" />
-    <style>
-      @media (max-width: 700px) {
-        .result-card {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-
-        .result-card > div {
-          min-width: 0;
-          flex: 1;
-        }
-
-        .result-card > button {
-          width: 34px;
-          min-width: 34px;
-          height: 34px;
-          padding: 0;
-          border-radius: 50%;
-          font-size: 0;
-          line-height: 1;
-        }
-
-        .result-card > button::before {
-          content: "+";
-          font-size: 24px;
-        }
-      }
-    </style>
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Planiranje obroka</p>
+          <p class="eyebrow" data-i18n="appKicker">Diabetes meal planning</p>
           <h1>Gluko</h1>
         </div>
       </header>
@@ -64,6 +34,7 @@
               <input id="foodSearch" type="search" placeholder="rice, apple, yogurt, barcode..." data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
               <button id="searchButton" type="button" data-i18n="search">Search</button>
             </div>
+            <p class="hint" data-i18n="searchHint">Searches the built-in list first, then Open Food Facts for packaged foods when online.</p>
           </div>
 
           <div id="results" class="results" aria-live="polite"></div>
@@ -168,7 +139,7 @@
           <strong></strong>
           <span></span>
         </div>
-        <button type="button" aria-label="Dodaj">Add</button>
+        <button type="button">Add</button>
       </article>
     </template>
 
