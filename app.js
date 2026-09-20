@@ -565,7 +565,7 @@ const foodNameTranslations = {
 
 const translations = {
   en: {
-    appKicker: "Diabetes meal planning",
+    appKicker: "Meal planning",
     carbTarget: "Carbohydrate target",
     mealTarget: "Meal target",
     gramsCarbs: "g carbs",
@@ -578,7 +578,6 @@ const translations = {
     findFood: "Find food or ingredient",
     searchPlaceholder: "rice, apple, yogurt, barcode...",
     search: "Search",
-    searchHint: "Searches the built-in list first, then Open Food Facts for packaged foods when online.",
     foodFilters: "Food category filters",
     all: "All",
     grains: "Grains",
@@ -648,7 +647,7 @@ const translations = {
     delete: "Delete"
   },
   bs: {
-    appKicker: "Planiranje obroka za dijabetes",
+    appKicker: "Planiranje obroka",
     carbTarget: "Cilj ugljikohidrata",
     mealTarget: "Cilj obroka",
     gramsCarbs: "g ugljikohidrata",
@@ -661,7 +660,6 @@ const translations = {
     findFood: "Pronađi hranu ili sastojak",
     searchPlaceholder: "riža, jabuka, jogurt, barkod...",
     search: "Traži",
-    searchHint: "Prvo pretražuje ugrađenu listu, zatim Open Food Facts za pakovanu hranu kada je internet dostupan.",
     foodFilters: "Filteri kategorija hrane",
     all: "Sve",
     grains: "Žitarice",
