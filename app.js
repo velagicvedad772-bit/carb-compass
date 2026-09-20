@@ -565,7 +565,7 @@ const foodNameTranslations = {
 
 const translations = {
   en: {
-    appKicker: "Diabetes meal planning",
+    appKicker: "Meal planning",
     carbTarget: "Carbohydrate target",
     mealTarget: "Meal target",
     gramsCarbs: "g carbs",
@@ -578,7 +578,6 @@ const translations = {
     findFood: "Find food or ingredient",
     searchPlaceholder: "rice, apple, yogurt, barcode...",
     search: "Search",
-    searchHint: "Searches the built-in list first, then Open Food Facts for packaged foods when online.",
     foodFilters: "Food category filters",
     all: "All",
     grains: "Grains",
@@ -648,7 +647,7 @@ const translations = {
     delete: "Delete"
   },
   bs: {
-    appKicker: "Planiranje obroka za dijabetes",
+    appKicker: "Planiranje obroka",
     carbTarget: "Cilj ugljikohidrata",
     mealTarget: "Cilj obroka",
     gramsCarbs: "g ugljikohidrata",
@@ -661,7 +660,6 @@ const translations = {
     findFood: "Pronađi hranu ili sastojak",
     searchPlaceholder: "riža, jabuka, jogurt, barkod...",
     search: "Traži",
-    searchHint: "Prvo pretražuje ugrađenu listu, zatim Open Food Facts za pakovanu hranu kada je internet dostupan.",
     foodFilters: "Filteri kategorija hrane",
     all: "Sve",
     grains: "Žitarice",
@@ -835,18 +833,6 @@ function formatGrams(value) {
   return `${round(value)}g`;
 }
 
-function isDrink(food) {
-  return String(food?.category || "").trim().toLowerCase() === "drink";
-}
-
-function amountUnit(food) {
-  return isDrink(food) ? "ml" : "g";
-}
-
-function formatAmount(food, value) {
-  return `${round(value, 0)}${amountUnit(food)}`;
-}
-
 function persistCurrentMeal() {
   localStorage.setItem("carbCompassMeal", JSON.stringify(state.meal));
 }
@@ -880,7 +866,7 @@ function renderResults() {
     const card = template.querySelector(".result-card");
     card.style.setProperty("--item-index", index);
     card.querySelector("strong").textContent = displayFoodName(food);
-    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${formatAmount(food, food.serving)}`;
+    card.querySelector("span").textContent = `${formatGrams(food.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${food.serving}g`;
     card.querySelector("button").addEventListener("click", () => openFoodModal(food));
     card.querySelector("button").textContent = t("addToMeal").replace(" to meal", "").replace(" u obrok", "");
     resultsEl.appendChild(template);
@@ -899,7 +885,7 @@ function renderMeal() {
       <td>
         <div class="amount-cell">
           <input type="number" min="1" step="1" value="${round(food.amount, 0)}" aria-label="${t("amount")} ${displayFoodName(food)}" />
-          <span>${amountUnit(food)}</span>
+          <span>g</span>
         </div>
       </td>
       <td class="carb-cell"><strong>${formatGrams(scaled(food, "carbs"))}</strong></td>
@@ -1029,7 +1015,7 @@ function openFoodModal(food) {
 
   amountInput.value = round(pendingFood.amount, 0);
   $("#foodModalTitle").textContent = displayFoodName(pendingFood);
-  $("#foodModalServing").textContent = `${formatGrams(pendingFood.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${formatAmount(pendingFood, pendingFood.serving)}`;
+  $("#foodModalServing").textContent = `${formatGrams(pendingFood.carbs)} ${t("carbs").toLowerCase()} ${t("perServing")} ${pendingFood.serving}g`;
   updateFoodModalNutrition();
 
   modal.hidden = false;
@@ -1057,22 +1043,14 @@ function updateFoodModalNutrition() {
   `;
 }
 
-function normalizeSearchText(value) {
-  return String(value || "")
-    .toLowerCase()
-    .replace(/đ/g, "d")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
 function searchLocal(query) {
-  const normalized = normalizeSearchText(query.trim());
+  const normalized = query.trim().toLowerCase();
   const sourceFoods = databaseFoods.length ? databaseFoods : foods;
   const searchableFoods = sourceFoods.filter((food) => !shouldHideDuplicate(food));
   if (!normalized) return [...searchableFoods];
   return searchableFoods.filter((food) => {
-    const englishName = normalizeSearchText(food.name);
-    const bosnianName = normalizeSearchText(foodNameTranslations[food.name] || "");
+    const englishName = food.name.toLowerCase();
+    const bosnianName = (foodNameTranslations[food.name] || "").toLowerCase();
     return englishName.includes(normalized) || bosnianName.includes(normalized);
   });
 }
