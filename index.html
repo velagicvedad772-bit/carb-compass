@@ -5,46 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Gluko</title>
     <link rel="stylesheet" href="styles.css" />
-
     <style>
-      /* Search visibility enhancement */
-      #foodSearch {
-        min-height: 50px;
-        border: 2px solid var(--mint, #3c8d73);
-        font-weight: 800;
-        box-shadow: 0 3px 12px rgba(60, 141, 115, 0.10);
-      }
+      @media (max-width: 700px) {
+        .result-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
 
-      #foodSearch::placeholder {
-        color: #66736d;
-        font-weight: 800;
-        opacity: 0.9;
-      }
+        .result-card > div {
+          min-width: 0;
+          flex: 1;
+        }
 
-      #foodSearch:focus {
-        border-color: var(--mint-dark, #23624e);
-        box-shadow: 0 0 0 4px rgba(60, 141, 115, 0.18), 0 5px 16px rgba(60, 141, 115, 0.14);
-      }
+        .result-card > button {
+          width: 34px;
+          min-width: 34px;
+          height: 34px;
+          padding: 0;
+          border-radius: 50%;
+          font-size: 0;
+          line-height: 1;
+        }
 
-      #searchButton {
-        opacity: 0.52;
-        font-weight: 700;
-        transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      #searchButton.search-ready {
-        opacity: 1;
-        font-weight: 950;
-        box-shadow: 0 5px 14px rgba(35, 98, 78, 0.24);
+        .result-card > button::before {
+          content: "+";
+          font-size: 24px;
+        }
       }
     </style>
-
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow" data-i18n="appKicker">Diabetes meal planning</p>
+          <p class="eyebrow">Planiranje obroka</p>
           <h1>Gluko</h1>
         </div>
       </header>
@@ -68,7 +64,6 @@
               <input id="foodSearch" type="search" placeholder="rice, apple, yogurt, barcode..." data-i18n-placeholder="searchPlaceholder" autocomplete="off" />
               <button id="searchButton" type="button" data-i18n="search">Search</button>
             </div>
-            <p class="hint" data-i18n="searchHint">Searches the built-in list first, then Open Food Facts for packaged foods when online.</p>
           </div>
 
           <div id="results" class="results" aria-live="polite"></div>
@@ -173,27 +168,10 @@
           <strong></strong>
           <span></span>
         </div>
-        <button type="button">Add</button>
+        <button type="button" aria-label="Dodaj">Add</button>
       </article>
     </template>
 
     <script src="app.js?v=4"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const foodSearch = document.getElementById("foodSearch");
-        const searchButton = document.getElementById("searchButton");
-
-        if (!foodSearch || !searchButton) return;
-
-        const updateSearchButtonState = () => {
-          searchButton.classList.toggle("search-ready", foodSearch.value.trim().length > 0);
-        };
-
-        foodSearch.addEventListener("input", updateSearchButtonState);
-        updateSearchButtonState();
-      });
-    </script>
-
   </body>
 </html>
