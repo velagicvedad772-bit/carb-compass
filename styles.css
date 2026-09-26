@@ -10,6 +10,25 @@
   --gold: #d89b25;
   --blue: #4d79a8;
   --shadow: 0 18px 45px rgba(31, 57, 47, 0.12);
+  --shadow-sm: 0 6px 16px rgba(31, 57, 47, 0.08);
+  --shadow-lg: 0 26px 60px rgba(31, 57, 47, 0.18);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {
@@ -42,17 +61,26 @@ textarea {
 button {
   border: 0;
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) ease, background-color var(--dur-base) ease, color var(--dur-base) ease;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(35, 98, 78, 0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(35, 98, 78, 0.16);
 }
 
 button:active {
   transform: translateY(1px) scale(0.97);
   box-shadow: 0 2px 6px rgba(35, 98, 78, 0.12);
+  transition-duration: var(--dur-fast);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
 }
 
 .app-shell {
@@ -68,14 +96,14 @@ footer {
   margin: 0 auto;
 }
 
-/* Page Entrance Animations */
+/* Page entrance: one orchestrated sequence, same motion direction, staggered timing */
 .topbar {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 20px;
   padding: 18px 0 18px;
-  animation: slideDownFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeInUp 0.55s var(--ease-out) both;
 }
 
 .summary-strip {
@@ -83,19 +111,19 @@ footer {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 16px;
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  animation: fadeInUp 0.55s var(--ease-out) 0.06s both;
 }
 
 .search-pane {
-  animation: fadeInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  animation: fadeInUp 0.55s var(--ease-out) 0.12s both;
 }
 
 .meal-pane {
-  animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+  animation: fadeInUp 0.55s var(--ease-out) 0.18s both;
 }
 
 footer {
-  animation: fadeIn 0.8s ease 0.4s both;
+  animation: fadeInUp 0.55s var(--ease-out) 0.26s both;
 }
 
 .top-actions {
@@ -118,7 +146,7 @@ footer {
 
 .language-control:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 50px rgba(31, 57, 47, 0.16);
+  box-shadow: var(--shadow-lg);
 }
 
 .language-control > span {
@@ -223,7 +251,7 @@ h3 {
 
 .target-panel:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 50px rgba(31, 57, 47, 0.16);
+  box-shadow: var(--shadow-lg);
 }
 
 .target-panel label,
@@ -299,7 +327,7 @@ textarea:focus {
 
 .summary-strip article:hover {
   transform: translateY(-3px);
-  box-shadow: 0 24px 50px rgba(31, 57, 47, 0.16);
+  box-shadow: var(--shadow-lg);
   border-color: rgba(60, 141, 115, 0.3);
 }
 
@@ -315,12 +343,12 @@ textarea:focus {
   margin-top: 10px;
   font-size: 2rem;
   line-height: 1;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+  transition: transform 0.25s var(--ease-spring), color 0.25s ease;
 }
 
 /* Number update animation pulse */
 .summary-strip strong.updated-pop {
-  animation: counterPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: counterPop 0.45s var(--ease-spring);
   color: var(--mint-dark);
 }
 
@@ -337,7 +365,7 @@ textarea:focus {
   max-width: 100%;
   height: 100%;
   background: linear-gradient(90deg, var(--mint), var(--gold), var(--coral));
-  transition: width 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 450ms var(--ease-out);
 }
 
 .workspace {
@@ -428,15 +456,16 @@ textarea:focus {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
-  animation: resultCardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(var(--item-index, 0) * 30ms);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  animation: resultCardFadeIn 0.4s var(--ease-out) both;
+  animation-delay: calc(var(--item-index, 0) * 35ms);
+  will-change: transform;
 }
 
 .result-card:hover {
   transform: translateY(-2px);
   border-color: var(--mint);
-  box-shadow: 0 8px 20px rgba(60, 141, 115, 0.14);
+  box-shadow: var(--shadow-sm);
   background: #ffffff;
 }
 
@@ -490,7 +519,7 @@ textarea:focus {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 14px;
-  animation: formExpand 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: formExpand 0.35s var(--ease-out) both;
 }
 
 .custom-food label {
@@ -553,7 +582,7 @@ textarea:focus {
   border-radius: 50%;
   background: conic-gradient(from 20deg, #7fb49e 0 33%, #f0c46a 33% 58%, #d98275 58% 82%, #6f9bc2 82% 100%);
   box-shadow: inset 0 0 0 18px #fff, 0 8px 24px rgba(31, 57, 47, 0.08);
-  animation: floatPlate 4s ease-in-out infinite alternate;
+  animation: floatPlate 5s ease-in-out infinite alternate;
 }
 
 .plate-art span {
@@ -610,7 +639,7 @@ th {
 
 /* Meal Table Row Animations */
 tbody tr {
-  animation: rowSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: rowSlideIn 0.35s var(--ease-out) both;
   transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.25s ease;
 }
 
@@ -619,7 +648,7 @@ tbody tr:hover {
 }
 
 tbody tr.row-removing {
-  animation: rowSlideOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  animation: rowSlideOut 0.28s var(--ease-in) forwards;
 }
 
 td strong,
@@ -675,11 +704,11 @@ td span {
   border-radius: 8px;
   color: #92372d;
   font-weight: 900;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s var(--ease-spring), background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .remove-button:hover {
-  transform: scale(1.12) rotate(8deg);
+  transform: scale(1.08) rotate(4deg);
   background: #f3d4d0;
   color: #7a1d13;
   box-shadow: 0 4px 10px rgba(146, 55, 45, 0.2);
@@ -707,6 +736,7 @@ body.modal-open {
   inset: 0;
   background: rgba(20, 36, 29, 0.58);
   backdrop-filter: blur(3px);
+  animation: fadeIn 0.22s ease-out both;
 }
 
 .food-modal__dialog {
@@ -719,7 +749,7 @@ body.modal-open {
   border: 1px solid var(--line);
   border-radius: 12px;
   box-shadow: 0 24px 70px rgba(20, 36, 29, 0.28);
-  animation: fadeInUp 0.24s ease-out;
+  animation: modalPop 0.32s var(--ease-out) both;
 }
 
 .food-modal__dialog h2 {
@@ -757,6 +787,8 @@ body.modal-open {
   background: #f4f8f5;
   border: 1px solid var(--line);
   border-radius: 8px;
+  animation: fadeInUp 0.3s var(--ease-out) both;
+  animation-delay: calc(var(--item-index, 0) * 40ms);
 }
 
 .food-modal__nutrition span,
@@ -865,7 +897,7 @@ body.modal-open {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
 }
 
 .saved-meal:hover {
@@ -908,7 +940,7 @@ body.modal-open {
   background: #f6faf7;
   border: 1px solid var(--line);
   border-radius: 8px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s var(--ease-out);
 }
 
 .period-stats article:hover {
@@ -938,7 +970,7 @@ body.modal-open {
   background: #fbfdfb;
   border: 1px solid var(--line);
   border-radius: 8px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s var(--ease-out);
 }
 
 .period-row:hover {
@@ -957,47 +989,14 @@ footer {
 }
 
 /* Keyframes Definitions */
-@keyframes slideDownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -1074,6 +1073,17 @@ footer {
   100% {
     transform: scale(1.22);
     opacity: 1;
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -1290,7 +1300,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    animation: formExpand 0.3s ease-out;
+    animation: formExpand 0.32s var(--ease-out) both;
   }
 
   .restaurants-panel[hidden] {
@@ -1368,12 +1378,25 @@ footer {
   }
 
   .result-card {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
     gap: 10px;
   }
 
   .result-card button {
-    width: 100%;
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 1;
+  }
+
+  .result-card button::before {
+    content: "+";
+    font-size: 24px;
+    font-weight: 700;
   }
 
   .custom-food label:first-child,
