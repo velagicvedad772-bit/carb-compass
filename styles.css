@@ -331,6 +331,17 @@ textarea:focus {
   border-color: rgba(60, 141, 115, 0.3);
 }
 
+/* Ring-ping flash the moment a total updates, layered behind the number's own pop */
+.summary-strip article:has(.updated-pop)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 30%, rgba(60, 141, 115, 0.22), transparent 70%);
+  animation: ringPing 0.6s var(--ease-out);
+  pointer-events: none;
+}
+
 .summary-strip span {
   display: block;
   color: var(--muted);
@@ -414,6 +425,38 @@ textarea:focus {
   font-weight: 800;
 }
 
+/* Shine sweep on primary calls-to-action, kept exclusive so it stays a highlight, not noise */
+#searchButton,
+#saveMealButton,
+.food-modal__save,
+.restaurants-toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+#searchButton::after,
+#saveMealButton::after,
+.food-modal__save::after,
+.restaurants-toggle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+#searchButton:hover::after,
+#saveMealButton:hover::after,
+.food-modal__save:hover::after,
+.restaurants-toggle:hover::after {
+  left: 130%;
+}
+
 .hint {
   margin: 0;
   color: var(--muted);
@@ -431,7 +474,15 @@ textarea:focus {
 .filter {
   background: #eef3ef;
   color: var(--ink);
+  animation: fadeIn 0.3s var(--ease-out) both;
 }
+
+.filter-row .filter:nth-child(1) { animation-delay: 0ms; }
+.filter-row .filter:nth-child(2) { animation-delay: 30ms; }
+.filter-row .filter:nth-child(3) { animation-delay: 60ms; }
+.filter-row .filter:nth-child(4) { animation-delay: 90ms; }
+.filter-row .filter:nth-child(5) { animation-delay: 120ms; }
+.filter-row .filter:nth-child(n + 6) { animation-delay: 150ms; }
 
 .results {
   display: grid;
@@ -525,7 +576,14 @@ textarea:focus {
 .custom-food label {
   display: grid;
   gap: 6px;
+  animation: fadeIn 0.3s var(--ease-out) both;
 }
+
+.custom-food label:nth-child(1) { animation-delay: 0ms; }
+.custom-food label:nth-child(2) { animation-delay: 30ms; }
+.custom-food label:nth-child(3) { animation-delay: 60ms; }
+.custom-food label:nth-child(4) { animation-delay: 90ms; }
+.custom-food label:nth-child(n + 5) { animation-delay: 120ms; }
 
 .custom-food label:first-child,
 .custom-food button {
@@ -688,8 +746,15 @@ td span {
   border-radius: 999px;
   color: var(--ink);
   font-size: 0.78rem;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s var(--ease-out), background-color 0.2s ease, color 0.2s ease;
+  animation: pillPop 0.3s var(--ease-spring) both;
 }
+
+.nutrition-pills span:nth-child(1) { animation-delay: 0ms; }
+.nutrition-pills span:nth-child(2) { animation-delay: 40ms; }
+.nutrition-pills span:nth-child(3) { animation-delay: 80ms; }
+.nutrition-pills span:nth-child(4) { animation-delay: 120ms; }
+.nutrition-pills span:nth-child(n + 5) { animation-delay: 160ms; }
 
 .nutrition-pills span:hover {
   transform: scale(1.08);
@@ -818,6 +883,10 @@ body.modal-open {
   font-weight: 900;
 }
 
+.remove-button:active {
+  animation: wobble 0.35s var(--ease-out);
+}
+
 .food-modal__discard {
   background: #f7e8e5;
   color: #92372d;
@@ -898,7 +967,13 @@ body.modal-open {
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
+  animation: fadeInUp 0.3s var(--ease-out) both;
 }
+
+.saved-meals .saved-meal:nth-child(1) { animation-delay: 0ms; }
+.saved-meals .saved-meal:nth-child(2) { animation-delay: 40ms; }
+.saved-meals .saved-meal:nth-child(3) { animation-delay: 80ms; }
+.saved-meals .saved-meal:nth-child(n + 4) { animation-delay: 120ms; }
 
 .saved-meal:hover {
   transform: translateY(-2px);
@@ -941,7 +1016,12 @@ body.modal-open {
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out);
+  animation: fadeInUp 0.3s var(--ease-out) both;
 }
+
+.period-stats article:nth-child(1) { animation-delay: 0ms; }
+.period-stats article:nth-child(2) { animation-delay: 50ms; }
+.period-stats article:nth-child(3) { animation-delay: 100ms; }
 
 .period-stats article:hover {
   transform: translateY(-2px);
@@ -971,7 +1051,13 @@ body.modal-open {
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out);
+  animation: fadeInUp 0.3s var(--ease-out) both;
 }
+
+.period-breakdown .period-row:nth-child(1) { animation-delay: 0ms; }
+.period-breakdown .period-row:nth-child(2) { animation-delay: 40ms; }
+.period-breakdown .period-row:nth-child(3) { animation-delay: 80ms; }
+.period-breakdown .period-row:nth-child(n + 4) { animation-delay: 120ms; }
 
 .period-row:hover {
   transform: translateX(3px);
@@ -1085,6 +1171,34 @@ footer {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes ringPing {
+  from {
+    opacity: 1;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes pillPop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: scale(1.08) rotate(0deg); }
+  30% { transform: scale(1.14) rotate(-10deg); }
+  60% { transform: scale(1.14) rotate(8deg); }
 }
 
 @keyframes formExpand {
@@ -1317,8 +1431,16 @@ footer {
     background: #fbfdfb;
     border: 1px solid var(--line);
     border-radius: 8px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
+    animation: fadeInUp 0.32s var(--ease-out) both;
   }
+
+  .restaurant-card:nth-child(1) { animation-delay: 0ms; }
+  .restaurant-card:nth-child(2) { animation-delay: 40ms; }
+  .restaurant-card:nth-child(3) { animation-delay: 80ms; }
+  .restaurant-card:nth-child(4) { animation-delay: 120ms; }
+  .restaurant-card:nth-child(5) { animation-delay: 160ms; }
+  .restaurant-card:nth-child(n + 6) { animation-delay: 200ms; }
 
   .restaurant-card:hover {
     transform: translateY(-2px);
