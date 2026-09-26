@@ -1020,7 +1020,14 @@ function openFoodModal(food) {
 
   modal.hidden = false;
   document.body.classList.add("modal-open");
-  requestAnimationFrame(() => amountInput.focus());
+  requestAnimationFrame(() => {
+    amountInput.focus();
+    // Re-assigning the value while focused moves the caret to the end,
+    // which works reliably even for type="number" inputs.
+    const currentValue = amountInput.value;
+    amountInput.value = "";
+    amountInput.value = currentValue;
+  });
 }
 
 function closeFoodModal() {
