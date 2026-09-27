@@ -426,7 +426,6 @@ textarea:focus {
 }
 
 /* Shine sweep on primary calls-to-action, kept exclusive so it stays a highlight, not noise */
-#searchButton,
 #saveMealButton,
 .food-modal__save,
 .restaurants-toggle {
@@ -434,7 +433,6 @@ textarea:focus {
   overflow: hidden;
 }
 
-#searchButton::after,
 #saveMealButton::after,
 .food-modal__save::after,
 .restaurants-toggle::after {
@@ -450,11 +448,66 @@ textarea:focus {
   pointer-events: none;
 }
 
-#searchButton:hover::after,
 #saveMealButton:hover::after,
 .food-modal__save:hover::after,
 .restaurants-toggle:hover::after {
   left: 130%;
+}
+
+/* Search button: a distinct circular icon action, set apart from the pill-shaped Restorani toggle */
+#searchButton {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--mint-dark);
+  color: transparent;
+  font-size: 0;
+  box-shadow: 0 4px 14px rgba(47, 143, 108, 0.35);
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) ease, background-color var(--dur-base) ease;
+}
+
+#searchButton::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 15px;
+  height: 15px;
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+#searchButton::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 27px;
+  width: 2.5px;
+  height: 9px;
+  background: #fff;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  transform-origin: top;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+#searchButton:hover {
+  transform: scale(1.07);
+  background: var(--mint);
+  box-shadow: 0 6px 18px rgba(69, 185, 140, 0.45);
+}
+
+#searchButton:hover::before {
+  transform: scale(1.1);
+}
+
+#searchButton:active {
+  transform: scale(0.93);
 }
 
 .hint {
@@ -1369,7 +1422,8 @@ footer {
   }
 
   .search-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
+    align-items: center;
   }
 
   .search-row button,
@@ -1417,10 +1471,22 @@ footer {
     min-height: 48px;
     width: 100%;
     padding: 0 14px;
-    background: var(--mint-dark);
-    border-radius: 8px;
-    color: #fff;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    border-radius: 999px;
+    color: var(--gold);
     font-weight: 900;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .restaurants-toggle:hover {
+    background: var(--gold);
+    color: #171004;
+    box-shadow: 0 6px 16px rgba(230, 185, 63, 0.32);
+  }
+
+  .restaurants-toggle:active {
+    transform: scale(0.98);
   }
 
   .restaurants-panel {
