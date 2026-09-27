@@ -1575,7 +1575,11 @@ footer {
     border: 1.5px solid rgba(255, 255, 255, 0.35);
     border-radius: 50%;
     clip-path: circle(50%);
-    background: transparent;
+    background-color: rgba(255, 255, 255, 0.08);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 55%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -6px 10px rgba(0, 0, 0, 0.25);
     font-size: 0;
     line-height: 1;
     transition: transform 0.2s var(--ease-spring), background-color 0.18s ease, border-color 0.18s ease;
@@ -1611,7 +1615,7 @@ footer {
 
   .result-card button:hover {
     transform: scale(1.06);
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.16);
     border-color: var(--mint);
   }
 
