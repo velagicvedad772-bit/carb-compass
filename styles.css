@@ -1,17 +1,17 @@
 :root {
-  --ink: #17201d;
-  --muted: #66736d;
-  --line: #dfe7e1;
-  --surface: #ffffff;
-  --wash: #f4f8f5;
-  --mint: #3c8d73;
-  --mint-dark: #23624e;
-  --coral: #d95d4f;
-  --gold: #d89b25;
-  --blue: #4d79a8;
-  --shadow: 0 18px 45px rgba(31, 57, 47, 0.12);
-  --shadow-sm: 0 6px 16px rgba(31, 57, 47, 0.08);
-  --shadow-lg: 0 26px 60px rgba(31, 57, 47, 0.18);
+  --ink: #eef2ef;
+  --muted: #9aa89f;
+  --line: #262f29;
+  --surface: #12181a;
+  --wash: #171d19;
+  --mint: #45b98c;
+  --mint-dark: #2f8f6c;
+  --coral: #e2685a;
+  --gold: #e6b93f;
+  --blue: #6f9bc9;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.6);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
@@ -42,8 +42,8 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 15% 10%, rgba(60, 141, 115, 0.12), transparent 28rem),
-    linear-gradient(135deg, #f7faf7 0%, #eef5f1 52%, #f9f2eb 100%);
+    radial-gradient(circle at 15% 10%, rgba(69, 185, 140, 0.15), transparent 28rem),
+    linear-gradient(135deg, #050705 0%, #090c0a 52%, #0a0806 100%);
   color: var(--ink);
   cursor: default;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -66,12 +66,12 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(35, 98, 78, 0.16);
+  box-shadow: 0 6px 16px rgba(47, 143, 108, 0.25);
 }
 
 button:active {
   transform: translateY(1px) scale(0.97);
-  box-shadow: 0 2px 6px rgba(35, 98, 78, 0.12);
+  box-shadow: 0 2px 6px rgba(47, 143, 108, 0.2);
   transition-duration: var(--dur-fast);
 }
 
@@ -163,7 +163,7 @@ footer {
   min-height: 42px;
   padding: 4px;
   overflow: hidden;
-  background: #eef3ef;
+  background: #1c2420;
   border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--ink);
@@ -275,7 +275,7 @@ textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   cursor: text;
   font-size: 16px;
@@ -298,7 +298,7 @@ textarea {
 input:focus,
 textarea:focus {
   border-color: var(--mint);
-  box-shadow: 0 0 0 4px rgba(60, 141, 115, 0.18);
+  box-shadow: 0 0 0 4px rgba(69, 185, 140, 0.22);
   transform: translateY(-1px);
 }
 
@@ -311,7 +311,7 @@ textarea:focus {
 .search-pane,
 .meal-pane,
 .tool-panel {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(18, 24, 20, 0.88);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -328,7 +328,7 @@ textarea:focus {
 .summary-strip article:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(60, 141, 115, 0.3);
+  border-color: rgba(69, 185, 140, 0.35);
 }
 
 /* Ring-ping flash the moment a total updates, layered behind the number's own pop */
@@ -337,7 +337,7 @@ textarea:focus {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle at 30% 30%, rgba(60, 141, 115, 0.22), transparent 70%);
+  background: radial-gradient(circle at 30% 30%, rgba(69, 185, 140, 0.25), transparent 70%);
   animation: ringPing 0.6s var(--ease-out);
   pointer-events: none;
 }
@@ -360,14 +360,14 @@ textarea:focus {
 /* Number update animation pulse */
 .summary-strip strong.updated-pop {
   animation: counterPop 0.45s var(--ease-spring);
-  color: var(--mint-dark);
+  color: var(--mint);
 }
 
 .progress-track {
   height: 12px;
   margin-top: 18px;
   overflow: hidden;
-  background: #e9eee9;
+  background: #20261f;
   border-radius: 999px;
 }
 
@@ -472,7 +472,7 @@ textarea:focus {
 }
 
 .filter {
-  background: #eef3ef;
+  background: #1c2420;
   color: var(--ink);
   animation: fadeIn 0.3s var(--ease-out) both;
 }
@@ -504,7 +504,7 @@ textarea:focus {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #fbfdfb;
+  background: #171d19;
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
@@ -517,7 +517,7 @@ textarea:focus {
   transform: translateY(-2px);
   border-color: var(--mint);
   box-shadow: var(--shadow-sm);
-  background: #ffffff;
+  background: #1c2420;
 }
 
 .result-card strong,
@@ -539,7 +539,7 @@ textarea:focus {
 .result-card button:hover {
   transform: scale(1.05);
   background: var(--mint);
-  box-shadow: 0 4px 12px rgba(60, 141, 115, 0.3);
+  box-shadow: 0 4px 12px rgba(69, 185, 140, 0.35);
 }
 
 .result-card button:active {
@@ -610,13 +610,13 @@ textarea:focus {
 }
 
 .subtle-button {
-  background: #f0f3f0;
+  background: #1a201c;
   color: var(--ink);
   transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 .subtle-button:hover {
-  background: #e2ebd5;
+  background: #24302a;
   color: var(--mint-dark);
 }
 
@@ -626,7 +626,7 @@ textarea:focus {
   min-height: 210px;
   margin-bottom: 12px;
   padding: 24px;
-  border: 1px dashed #c7d4cc;
+  border: 1px dashed #333f37;
   border-radius: 8px;
   color: var(--muted);
   text-align: center;
@@ -640,10 +640,10 @@ textarea:focus {
   width: 118px;
   aspect-ratio: 1;
   margin-bottom: 16px;
-  border: 10px solid #dfe9e2;
+  border: 10px solid #2a3228;
   border-radius: 50%;
   background: conic-gradient(from 20deg, #7fb49e 0 33%, #f0c46a 33% 58%, #d98275 58% 82%, #6f9bc2 82% 100%);
-  box-shadow: inset 0 0 0 18px #fff, 0 8px 24px rgba(31, 57, 47, 0.08);
+  box-shadow: inset 0 0 0 18px #fff, 0 8px 24px rgba(0, 0, 0, 0.35);
   animation: floatPlate 5s ease-in-out infinite alternate;
 }
 
@@ -653,7 +653,7 @@ textarea:focus {
   height: 20px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   animation: pulseDot 3s ease-in-out infinite alternate;
 }
 
@@ -706,7 +706,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background-color: rgba(244, 248, 245, 0.6);
+  background-color: rgba(35, 45, 39, 0.6);
 }
 
 tbody tr.row-removing {
@@ -746,7 +746,7 @@ td span {
 
 .nutrition-pills span {
   padding: 5px 8px;
-  background: #eef3ef;
+  background: #1c2420;
   border-radius: 999px;
   color: var(--ink);
   font-size: 0.78rem;
@@ -762,25 +762,25 @@ td span {
 
 .nutrition-pills span:hover {
   transform: scale(1.08);
-  background: #e0eae2;
+  background: #23302a;
   color: var(--mint-dark);
 }
 
 .remove-button {
   width: 36px;
   height: 36px;
-  background: #f7e8e5;
+  background: #3a211d;
   border-radius: 8px;
-  color: #92372d;
+  color: #ff9686;
   font-weight: 900;
   transition: transform 0.2s var(--ease-spring), background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .remove-button:hover {
   transform: scale(1.08) rotate(4deg);
-  background: #f3d4d0;
-  color: #7a1d13;
-  box-shadow: 0 4px 10px rgba(146, 55, 45, 0.2);
+  background: #4a2822;
+  color: #ffb199;
+  box-shadow: 0 4px 10px rgba(226, 104, 90, 0.3);
 }
 
 body.modal-open {
@@ -803,7 +803,7 @@ body.modal-open {
 .food-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(20, 36, 29, 0.58);
+  background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(3px);
   animation: fadeIn 0.22s ease-out both;
 }
@@ -814,10 +814,10 @@ body.modal-open {
   max-height: calc(100vh - 36px);
   overflow: auto;
   padding: 20px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
-  box-shadow: 0 24px 70px rgba(20, 36, 29, 0.28);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
   animation: modalPop 0.32s var(--ease-out) both;
 }
 
@@ -853,7 +853,7 @@ body.modal-open {
 
 .food-modal__nutrition article {
   padding: 10px;
-  background: #f4f8f5;
+  background: #171d19;
   border: 1px solid var(--line);
   border-radius: 8px;
   animation: fadeInUp 0.3s var(--ease-out) both;
@@ -892,8 +892,8 @@ body.modal-open {
 }
 
 .food-modal__discard {
-  background: #f7e8e5;
-  color: #92372d;
+  background: #3a211d;
+  color: #ff9686;
 }
 
 .food-modal__save {
@@ -914,7 +914,7 @@ body.modal-open {
 }
 
 .tracker-panel {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(18, 24, 20, 0.88);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -967,7 +967,7 @@ body.modal-open {
   grid-template-columns: 1fr auto;
   gap: 10px;
   padding: 10px;
-  background: #fbfdfb;
+  background: #171d19;
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
@@ -981,7 +981,7 @@ body.modal-open {
 
 .saved-meal:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(31, 57, 47, 0.08);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
 .saved-meal strong,
@@ -1002,7 +1002,7 @@ body.modal-open {
 
 .period-tab {
   min-height: 36px;
-  background: #eef3ef;
+  background: #1c2420;
   color: var(--ink);
 }
 
@@ -1016,7 +1016,7 @@ body.modal-open {
 .period-stats article {
   min-height: 76px;
   padding: 10px;
-  background: #f6faf7;
+  background: #161c18;
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out);
@@ -1051,7 +1051,7 @@ body.modal-open {
   justify-content: space-between;
   gap: 10px;
   padding: 10px;
-  background: #fbfdfb;
+  background: #171d19;
   border: 1px solid var(--line);
   border-radius: 8px;
   transition: transform 0.2s var(--ease-out);
@@ -1179,10 +1179,10 @@ footer {
 
 @keyframes addPing {
   from {
-    box-shadow: 0 3px 10px rgba(35, 98, 78, 0.28), 0 0 0 0 rgba(60, 141, 115, 0.55);
+    box-shadow: 0 3px 10px rgba(47, 143, 108, 0.35), 0 0 0 0 rgba(69, 185, 140, 0.55);
   }
   to {
-    box-shadow: 0 3px 10px rgba(35, 98, 78, 0.28), 0 0 0 16px rgba(60, 141, 115, 0);
+    box-shadow: 0 3px 10px rgba(47, 143, 108, 0.35), 0 0 0 16px rgba(69, 185, 140, 0);
   }
 }
 
@@ -1209,9 +1209,9 @@ footer {
 }
 
 @keyframes wobble {
-  0%, 100% { transform: scale(1.08) rotate(0deg); }
-  30% { transform: scale(1.14) rotate(-10deg); }
-  60% { transform: scale(1.14) rotate(8deg); }
+  0%, 100% { transform: scale(1.08) rotate(4deg); }
+  30% { transform: scale(1.14) rotate(-8deg); }
+  60% { transform: scale(1.14) rotate(10deg); }
 }
 
 @keyframes formExpand {
@@ -1284,7 +1284,7 @@ footer {
   .target-panel {
     min-width: 0;
     padding: 11px;
-    box-shadow: 0 10px 24px rgba(31, 57, 47, 0.09);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   }
 
   .language-switch span {
@@ -1365,7 +1365,7 @@ footer {
     min-width: 0;
     padding: 12px;
     border-radius: 8px;
-    box-shadow: 0 10px 24px rgba(31, 57, 47, 0.09);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   }
 
   .search-row {
@@ -1441,7 +1441,7 @@ footer {
     gap: 10px;
     min-height: 64px;
     padding: 10px;
-    background: #fbfdfb;
+    background: #171d19;
     border: 1px solid var(--line);
     border-radius: 8px;
     transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
@@ -1457,7 +1457,7 @@ footer {
 
   .restaurant-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   }
 
   .restaurant-card strong {
@@ -1527,7 +1527,7 @@ footer {
     border-radius: 50%;
     clip-path: circle(50%);
     background: var(--mint-dark);
-    box-shadow: 0 3px 10px rgba(35, 98, 78, 0.28);
+    box-shadow: 0 3px 10px rgba(47, 143, 108, 0.35);
     font-size: 0;
     line-height: 1;
   }
@@ -1611,7 +1611,7 @@ footer {
     width: 62px;
     margin-bottom: 0;
     border-width: 6px;
-    box-shadow: inset 0 0 0 9px #fff, 0 6px 18px rgba(31, 57, 47, 0.08);
+    box-shadow: inset 0 0 0 9px #fff, 0 6px 18px rgba(0, 0, 0, 0.35);
   }
 
   .table-wrap {
@@ -1642,7 +1642,7 @@ footer {
   tr {
     position: relative;
     padding: 12px;
-    background: #fbfdfb;
+    background: #171d19;
     border: 1px solid var(--line);
     border-radius: 8px;
   }
@@ -1670,7 +1670,7 @@ footer {
     display: block;
     margin-bottom: 10px;
     padding: 10px;
-    background: #f1f6f2;
+    background: #182019;
     border-radius: 8px;
   }
 
@@ -1712,7 +1712,7 @@ footer {
   .tool-panel,
   .tracker-panel {
     padding: 12px;
-    box-shadow: 0 10px 24px rgba(31, 57, 47, 0.09);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   }
 
   .tool-panel output {
