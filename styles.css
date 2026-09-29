@@ -465,24 +465,26 @@ textarea:focus {
   height: 44px;
   min-height: 44px;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 50%;
   clip-path: circle(50%);
-  background-color: #1c2420;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7.2'/%3E%3Cline x1='15.8' y1='15.8' x2='21.5' y2='21.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 27px 27px;
+  background-color: rgba(47, 143, 108, 0.32);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7.2'/%3E%3Cline x1='15.8' y1='15.8' x2='21.5' y2='21.5'/%3E%3C/svg%3E"), linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 55%);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+  background-size: 27px 27px, cover;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: transparent;
   font-size: 0;
-  box-shadow: none;
-  transition: transform var(--dur-base) var(--ease-spring), background-color var(--dur-base) ease;
+  box-shadow: 0 4px 14px rgba(47, 143, 108, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -8px 12px rgba(0, 0, 0, 0.2);
+  transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) ease, background-color var(--dur-base) ease;
 }
 
 #searchButton:hover {
   transform: scale(1.07);
-  background-color: #24302a;
-  box-shadow: none;
+  background-color: rgba(69, 185, 140, 0.42);
+  box-shadow: 0 6px 18px rgba(69, 185, 140, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -8px 12px rgba(0, 0, 0, 0.15);
 }
 
 #searchButton:active {
