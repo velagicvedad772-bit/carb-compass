@@ -14,6 +14,9 @@
   /* muted sage: --accent for text/outlines, --accent-strong for filled buttons (white text passes AA) */
   --accent: #7db8a0;
   --accent-strong: #3f8068;
+  --accent-tint: rgba(125, 184, 160, 0.12);
+  --accent-tint-hover: rgba(125, 184, 160, 0.2);
+  --accent-ring: rgba(125, 184, 160, 0.22);
   --coral: #de6f62;
   --gold: #d9b257;
   --blue: #7ba3cc;
@@ -202,13 +205,14 @@ footer {
   position: absolute;
   inset: 4px auto 4px 4px;
   width: calc(50% - 4px);
-  background: var(--accent-strong);
+  background: var(--accent-tint-hover);
+  box-shadow: inset 0 0 0 1px var(--accent-ring);
   border-radius: 6px;
   transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .language-switch span:first-child {
-  color: #fff;
+  color: var(--accent);
 }
 
 .language-switch.is-bs i {
@@ -220,7 +224,7 @@ footer {
 }
 
 .language-switch.is-bs span:nth-child(2) {
-  color: #fff;
+  color: var(--accent);
 }
 
 .eyebrow {
@@ -424,8 +428,18 @@ textarea:focus {
 #saveMealButton,
 .filter.is-active,
 .period-tab.is-active {
-  background: var(--accent-strong);
-  color: #fff;
+  background: var(--accent-tint);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent-ring);
+}
+
+.search-row button:hover,
+.result-card button:hover,
+.custom-food button:hover,
+#saveMealButton:hover,
+.filter.is-active:hover,
+.period-tab.is-active:hover {
+  background: var(--accent-tint-hover);
 }
 
 .search-row button,
@@ -480,10 +494,10 @@ textarea:focus {
   height: 44px;
   min-height: 44px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--accent-ring);
   border-radius: 50%;
-  background-color: var(--accent-strong);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7.2'/%3E%3Cline x1='15.8' y1='15.8' x2='21.5' y2='21.5'/%3E%3C/svg%3E"), linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 55%);
+  background-color: var(--accent-tint);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237db8a0' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10.5' cy='10.5' r='7.2'/%3E%3Cline x1='15.8' y1='15.8' x2='21.5' y2='21.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat;
   background-position: center, center;
   background-size: 27px 27px, cover;
@@ -491,13 +505,14 @@ textarea:focus {
   -webkit-backdrop-filter: blur(10px);
   color: transparent;
   font-size: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: none;
   transition: transform var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) ease, background-color var(--dur-base) ease;
 }
 
 #searchButton:hover {
   transform: scale(1.07);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  background-color: var(--accent-tint-hover);
+  box-shadow: none;
 }
 
 #searchButton:active {
@@ -584,8 +599,7 @@ textarea:focus {
 
 .result-card button:hover {
   transform: scale(1.05);
-  background: var(--accent);
-  box-shadow: 0 4px 12px rgba(125, 184, 160, 0.35);
+  background: var(--accent-tint-hover);
 }
 
 .result-card button:active {
@@ -940,8 +954,13 @@ body.modal-open {
 }
 
 .food-modal__save {
-  background: var(--accent-strong);
-  color: #fff;
+  background: var(--accent-tint);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent-ring);
+}
+
+.food-modal__save:hover {
+  background: var(--accent-tint-hover);
 }
 
 .tools-grid {
@@ -1584,9 +1603,9 @@ footer {
     padding: 0;
     border: 0;
     border-radius: 50%;
-    background-color: var(--accent);
+    background-color: var(--accent-tint);
     background-image: none;
-    box-shadow: none;
+    box-shadow: inset 0 0 0 1px var(--accent-ring);
     font-size: 0;
     line-height: 1;
     transition: transform 0.2s var(--ease-spring), background-color 0.18s ease, border-color 0.18s ease;
@@ -1598,7 +1617,7 @@ footer {
     position: absolute;
     top: 50%;
     left: 50%;
-    background: #fff;
+    background: var(--accent);
     border-radius: 2px;
     transition: transform 0.3s var(--ease-spring), background-color 0.18s ease;
   }
@@ -1622,8 +1641,8 @@ footer {
 
   .result-card button:hover {
     transform: scale(1.06);
-    background-color: var(--accent);
-    box-shadow: none;
+    background-color: var(--accent-tint-hover);
+    box-shadow: inset 0 0 0 1px var(--accent-ring);
   }
 
   .custom-food label:first-child,
